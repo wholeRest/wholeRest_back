@@ -6,55 +6,47 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  PROJECT_NAME: rest_back_project
+  BUCKET_NAME: rest-cicd-bucket
+  CODE_DEPLOY_APP_NAME: rest_cicd
+  DEPLOYMENT_GROUP_NAME: rest_instance
+
 jobs:
-  build:
-
+  deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
 
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
+      - name: Permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
 
-    - name: Grant execute permission for gradlew  # 실행 권한 부여 스텝 추가
-      run: chmod +x ./gradlew
+      - name: Build and Test
+        run: ./gradlew build test
 
-    - name: Cache Gradle packages
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
+      - name: Make Zip File
+        run: zip -qq -r ./$GITHUB_SHA.zip .
+        shell: bash
+        
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_PRIVATE_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+      
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-
-    - name: Build with Gradle Wrapper
-      run: ./gradlew build
-
-  dependency-submission:
-
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-
-    - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+      - name: Code Deploy To EC2 instance
+        run: aws deploy create-deployment 
+                --application-name $CODE_DEPLOY_APP_NAME 
+                --deployment-config-name CodeDeployDefault.AllAtOnce
+                --deployment-group-name $DEPLOYMENT_GROUP_NAME 
+                --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
