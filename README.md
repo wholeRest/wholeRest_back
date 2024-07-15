@@ -15,4 +15,4 @@ local workspace에 'feature'라는 이름으로 브랜치 생성 <br>
 8. <code>git push origin develop</code>  - 원격저장소 develop에 반영
 
 ## 브랜치 흐름도 (참고)
-![image](https://github.com/user-attachments/assets/e3c8f7dd-16cd-4d5b-bf86-15bf5b7d5627)
+![image](https://github.com/user-attachments/assets/3d20b791-bc36-49c4-bb28-de9a2be02703)
