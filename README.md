@@ -13,3 +13,6 @@ local workspace에 'feature'라는 이름으로 브랜치 생성 <br>
 6. <code>git pull</code>  - 원격저장소 develop의 최신 정보를 로컬에 업데이트 시키기
 7. <code>git merge feature</code>  - develop에 feature 브랜치 작업 반영
 8. <code>git push origin develop</code>  - 원격저장소 develop에 반영
+
+## 브랜치 흐름도 (참고)
+![image](https://github.com/user-attachments/assets/e3c8f7dd-16cd-4d5b-bf86-15bf5b7d5627)
