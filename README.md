@@ -18,4 +18,4 @@ local workspace에 'feature'라는 이름으로 브랜치 생성 <br>
 ![image](https://github.com/user-attachments/assets/3d20b791-bc36-49c4-bb28-de9a2be02703) <br>
 
 ## CI/CD 흐름도 (참고)
-![image](https://github.com/user-attachments/assets/cb59844f-59f1-41e2-85f6-806fcf2ad856)
+![image](https://github.com/user-attachments/assets/066f44cf-32fd-4387-b769-425b446730a1)
