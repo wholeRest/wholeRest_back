@@ -5,10 +5,10 @@ permissions:
   pull-requests: write
 
 on:
+  push:
+    branches: [ "main" ]
   pull_request:
-    types:
-      [ opened, synchronize, reopened, closed ]
-  workflow_dispatch: # (2) 수동 실행
+    branches: [ "main" ]
 
 jobs:
   build:
