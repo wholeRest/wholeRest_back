@@ -38,3 +38,6 @@ out/
 
 # Ignore application properties and YAML files
 application.properties
+
+# Ignore env file
+.env
