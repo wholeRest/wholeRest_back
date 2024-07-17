@@ -29,7 +29,7 @@ local workspace에 'feature'라는 이름으로 브랜치 생성 <br>
 <br><br>
 
 ### main브랜치에 develop브랜치 작업 반영하기
-1. <code> git checkout develop</code> - develop브랜치로 전환
+1. <code>git checkout develop</code> - develop브랜치로 전환
 2. <code>git add .</code>
 3. <code>git commit -m "message"</code>
 4. <code>git pull origin develop</code> - 원격저장소 develop의 최신 정보를 로컬에 업데이트
