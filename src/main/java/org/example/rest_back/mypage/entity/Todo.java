@@ -1,4 +1,4 @@
-package org.example.rest_back.mypage.domain;
+package org.example.rest_back.mypage.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
