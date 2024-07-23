@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.rest_back.Post.Dto.CommentDto;
+import org.example.rest_back.Post.Dto.PostDto;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
@@ -48,9 +50,10 @@ public class Comment {
     @UpdateTimestamp
     private LocalDateTime comment_Update_Time;
 
-    //@ManyToOne
-    //@JoinColumn(name = "user_id")
-    //private User user;
+    // 유저아이디값을 외래키로 가짐.(String)
+    // @ManyToOne
+    // @JoinColumn(name = "user_id")
+    // private User user_id;
 
     // 여러개의 Comment가 하나의 Post와 연결될 수 있음 => 다대일 관계
     // @JoinColumn : 외래키 지정
@@ -58,4 +61,27 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
+
+    // Entity가 DB에 insert되기 전에 자동으로 호출됨
+    // DB에 댓글 생성 시간 자동으로 삽입 (생성시간, 수정시간 모두 동일하게 적용)
+    @PrePersist
+    protected void onCreate() {
+        this.comment_Create_Time = LocalDateTime.now();
+        this.comment_Update_Time = LocalDateTime.now();
+    }
+
+    // Entity가 DB에 Update되기 전에 자동으로 호출됨
+    // DB에 댓글 수정 시간 자동으로 삽압 (수정시간에만 적용)
+    @PreUpdate
+    protected void onUpdate() {
+        this.comment_Update_Time = LocalDateTime.now();
+    }
+
+    // Setter보다 보안성이 강한 Entity 수정 방법
+    public void update_comment(CommentDto commentDto){
+        if (commentDto.getContent() != null) {
+            this.content = commentDto.getContent();
+        }
+    }
+
 }
