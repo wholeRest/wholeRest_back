@@ -2,6 +2,7 @@ package org.example.rest_back.Post.Domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.rest_back.Post.Dto.PostDto;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
@@ -31,9 +32,10 @@ public class Post {
     @Column(name = "post_id")
     private Long post_id;
 
-    //@ManyToOne
-    //JoinColumn(name = "user_id")
-    //private User user_id;
+    // 유저아이디값을 외래키로 가짐 (String)
+    // @ManyToOne
+    // JoinColumn(name = "user_id")
+    // private User user_id;
 
     // 게시물 제목
     private String title;
@@ -65,4 +67,30 @@ public class Post {
     // 따라서 mappedBy에서는 Comment엔터티에서 Post엔터티를 참조하는 post필드를 참조해야 함.
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
+
+    // Entity가 DB에 insert되기 전에 자동으로 호출됨
+    // DB에 게시글 생성 시간 자동으로 삽입 (생성시간, 수정시간 모두 동일하게 적용)
+    @PrePersist
+    protected void onCreate() {
+        this.post_Create_Time = LocalDateTime.now();
+        this.post_Update_Time = LocalDateTime.now();
+    }
+
+    // Entity가 DB에 Update되기 전에 자동으로 호출됨
+    // DB에 게시글 수정 시간 자동으로 삽압 (수정시간에만 적용)
+    @PreUpdate
+    protected void onUpdate() {
+        this.post_Update_Time = LocalDateTime.now();
+    }
+
+    // Setter보다 보안성이 강한 Entity 수정 방법
+    public void update_post(PostDto postDto){
+        if (postDto.getContent() != null) {
+            this.content = postDto.getContent();
+        }
+        if (postDto.getTitle() != null) {
+            this.title = postDto.getTitle();
+        }
+    }
+
 }
