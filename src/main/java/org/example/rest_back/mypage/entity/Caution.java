@@ -12,14 +12,14 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Todo {
+public class Caution {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int todo_id;
+    private int caution_id;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "event_id", nullable = false)
+    private Events events;
 
     private String content;
     private Boolean completed;

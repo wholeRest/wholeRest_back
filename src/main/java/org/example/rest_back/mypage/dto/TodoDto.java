@@ -1,26 +1,18 @@
 package org.example.rest_back.mypage.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.rest_back.mypage.entity.Member;
 import org.example.rest_back.mypage.entity.Todo;
-import org.example.rest_back.mypage.repository.MemberRepository;
-import org.example.rest_back.mypage.repository.TodoRepository;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class TodoDto {
     private int todo_id;
     private String member_id;
     private String content;
     private Boolean completed;
-    private LocalDateTime create_time;
+    private LocalDate create_time;
 
 
     public TodoDto() {

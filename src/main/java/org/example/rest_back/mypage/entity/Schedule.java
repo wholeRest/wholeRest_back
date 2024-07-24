@@ -4,26 +4,22 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
-public class Todo {
+public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int todo_id;
+    private int schedule_id;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "calendar_id", nullable = false)
+    private Calendar calendar;
 
-    private String content;
-    private Boolean completed;
-
-    @CreationTimestamp
-    private LocalDate create_time;
+    private LocalDate start_date;
+    private LocalDate end_date;
+    private int schedule_color;
 }
