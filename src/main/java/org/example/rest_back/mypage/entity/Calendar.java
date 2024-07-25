@@ -18,7 +18,7 @@ public class Calendar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int calendar_id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 }

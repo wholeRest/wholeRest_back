@@ -15,7 +15,7 @@ public class ScheduleDto {
     private int calendar_id;
     private LocalDate start_id;
     private LocalDate end_id;
-    private int schedule_color;
+    private String schedule_color;
 
     public static ScheduleDto from(Schedule schedule){
         ScheduleDto dto = new ScheduleDto();

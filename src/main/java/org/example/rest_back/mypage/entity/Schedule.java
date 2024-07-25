@@ -21,5 +21,5 @@ public class Schedule {
 
     private LocalDate start_date;
     private LocalDate end_date;
-    private int schedule_color;
+    private String schedule_color;
 }

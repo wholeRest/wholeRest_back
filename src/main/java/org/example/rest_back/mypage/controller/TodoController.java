@@ -1,5 +1,6 @@
 package org.example.rest_back.mypage.controller;
 
+import lombok.AllArgsConstructor;
 import org.example.rest_back.mypage.dto.TodoDto;
 import org.example.rest_back.mypage.service.TodoService;
 import org.springframework.http.HttpStatus;
@@ -8,14 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
-@RequestMapping(path = "/todo")
+@RequestMapping(path = "/api/todo")
 public class TodoController {
     private final TodoService todoService;
-
-    public TodoController(TodoService todoService) {
-        this.todoService = todoService;
-    }
 
     @GetMapping("/{memberId}")
     public ResponseEntity<List<TodoDto>> getTodosByMemberId(@PathVariable String memberId){
