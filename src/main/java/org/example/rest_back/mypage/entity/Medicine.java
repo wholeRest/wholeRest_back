@@ -12,14 +12,14 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Medicine_time {
+public class Medicine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int medicine_time_id;
+    private int medicine_id;
 
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
-    private Events events;
+    private Event event;
 
     private String content;
     private Boolean completed;

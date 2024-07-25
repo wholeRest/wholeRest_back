@@ -28,7 +28,7 @@ public class TodoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateTodoPartial(@PathVariable int id, @RequestBody TodoDto todoDto) {
+    public ResponseEntity<Void> updateTodo(@PathVariable int id, @RequestBody TodoDto todoDto) {
         todoService.updateTodo(id, todoDto);
         return ResponseEntity.ok().build();
     }

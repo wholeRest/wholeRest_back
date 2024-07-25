@@ -19,7 +19,7 @@ public class Checkup {
 
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
-    private Events events;
+    private Event event;
 
     private String content;
     private Boolean completed;

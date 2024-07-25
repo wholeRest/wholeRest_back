@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Events {
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int event_id;
@@ -21,12 +21,12 @@ public class Events {
     @JoinColumn(name = "calendar_id", nullable = false)
     private Calendar calendar;
 
-    @CreationTimestamp
+    @Column(unique = true)
     private LocalDate date;
 
     private int emoji;
-    private int today_feel;
-    private int today_condition;
+    private String today_feel;
+    private String today_condition;
     private String today_routine;
     private String today_appreciation;
     private String morning_image_url;

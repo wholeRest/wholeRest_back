@@ -4,7 +4,6 @@ package org.example.rest_back.mypage.dto;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.rest_back.mypage.entity.Checkup;
-import org.example.rest_back.mypage.entity.Medicine_time;
 
 import java.time.LocalDate;
 
@@ -24,7 +23,7 @@ public class CheckupDto {
     public static CheckupDto from(Checkup checkup){
         CheckupDto dto = new CheckupDto();
         dto.setCheckup_id(checkup.getCheckup_id());
-        dto.setEvent_id(checkup.getEvents().getEvent_id());
+        dto.setEvent_id(checkup.getEvent().getEvent_id());
         dto.setContent(checkup.getContent());
         dto.setCompleted(checkup.getCompleted());
         dto.setCreate_time(checkup.getCreate_time());

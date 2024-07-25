@@ -7,7 +7,6 @@ import org.example.rest_back.mypage.entity.Schedule;
 import org.example.rest_back.mypage.repository.CalendarRepository;
 import org.example.rest_back.mypage.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,8 +44,19 @@ public class ScheduleService {
                 .collect(Collectors.toList());
     }
 
+    //post
+    public void createSchedule(ScheduleDto scheduleDto){
+        Calendar calendar = calendarRepository.findById(scheduleDto.getCalendar_id()).orElse(null);
+        Schedule schedule = new Schedule();
+        schedule.setCalendar(calendar);
+        schedule.setStart_date(scheduleDto.getStart_id());
+        schedule.setEnd_date(scheduleDto.getEnd_id());
+        schedule.setSchedule_color(scheduleDto.getSchedule_color());
+        scheduleRepository.save(schedule);
+    }
+
     //update by scheduleId
-    public void updateCalendar(int schedule_id, ScheduleDto scheduleDto){
+    public void updateSchedule(int schedule_id, ScheduleDto scheduleDto){
         Schedule schedule = scheduleRepository.findById(schedule_id).orElse(null);
         if(schedule != null){
             if(scheduleDto.getStart_id() != null)
@@ -60,7 +70,7 @@ public class ScheduleService {
     }
 
     //delete schedule
-    public void deleteCalendar(int schedule_id) {
+    public void deleteSchedule(int schedule_id) {
         scheduleRepository.deleteById(schedule_id);
     }
 }

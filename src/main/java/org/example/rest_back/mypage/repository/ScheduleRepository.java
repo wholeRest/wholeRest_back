@@ -13,6 +13,7 @@ import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     List<Schedule> findByCalendar(Calendar calendar);
+
     @Query("SELECT s FROM Schedule s WHERE " +
             "s.calendar.calendar_id = :calendarId AND (" +
             "(YEAR(s.start_date) = :year AND MONTH(s.start_date) = :month) OR " +
