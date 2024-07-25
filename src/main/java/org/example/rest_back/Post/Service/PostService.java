@@ -75,10 +75,10 @@ public class PostService {
     }
 
     // Entity -> Dto
-    private PostDto convertToDto(Post post){
+    public PostDto convertToDto(Post post){
         // Entity(post)객체를 Dto(PostDto)객체로 전환
         return PostDto.builder()
-                .post_id(post.getPost_id())
+                .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .views(post.getViews())
@@ -92,10 +92,10 @@ public class PostService {
     }
 
     // Dto -> Entity
-    private Post convertToEntity(PostDto postDto){
+    public Post convertToEntity(PostDto postDto){
         // Dto(PostDto)객체를 Entity(post)객체로 전환
         return Post.builder()
-                .post_id(postDto.getPost_id())
+                .id(postDto.getId())
                 .title(postDto.getTitle())
                 .content(postDto.getContent())
                 .views(postDto.getViews())

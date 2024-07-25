@@ -1,9 +1,9 @@
 package org.example.rest_back.Post.Service;
 
 import org.example.rest_back.Post.Domain.Comment;
+import org.example.rest_back.Post.Domain.Post;
 import org.example.rest_back.Post.Dto.CommentDto;
 import org.example.rest_back.Post.Repository.CommentRepository;
-import org.example.rest_back.Post.Repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,15 +14,29 @@ import java.util.Optional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final PostService postService;
 
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, PostService postService) {
         this.commentRepository = commentRepository;
+        this.postService = postService;
     }
 
     // Create, 댓글 생성
     @Transactional
-    public Comment registerComment(Comment comment) {
-        return commentRepository.save(comment);
+    public Comment registerComment(Long post_id, String content) {
+        Optional<Post> postOptional = postService.getPostById(post_id);
+        if (postOptional.isEmpty()) {
+            throw new IllegalArgumentException("Invalid postId: " + post_id);
+        }
+
+        Post post = postOptional.get();
+
+        CommentDto commentDto = CommentDto.builder()
+                                    .post(post)
+                                    .content(content)
+                                    .build();
+
+        return commentRepository.save(convertToEntity(commentDto));
     }
 
     // Read All, 특정 게시글에 해당하는 모든 댓글 조회
@@ -63,7 +77,7 @@ public class CommentService {
 
 
     // Entity -> Dto
-    private CommentDto convertToDto(Comment comment){
+    public CommentDto convertToDto(Comment comment){
         // Entity(post)객체를 Dto(PostDto)객체로 전환
         return CommentDto.builder()
                 .comment_id(comment.getComment_id())
@@ -71,13 +85,13 @@ public class CommentService {
                 .likes(comment.getLikes())
                 .comment_Create_Time(comment.getComment_Create_Time())
                 .comment_Update_Time(comment.getComment_Update_Time())
-                .post_id(comment.getPost().getPost_id())
+                .post_id(comment.getPost().getId())
                 .build();
 
         // 유저 아이디에 해당하는 코드 작성해야 함
     }
     // Dto -> Entity
-    private Comment convertToEntity(CommentDto commentDto){
+    public Comment convertToEntity(CommentDto commentDto){
         // Dto(PostDto)객체를 Entity(post)객체로 전환
         return Comment.builder()
                 .comment_id(commentDto.getComment_id())
@@ -85,6 +99,7 @@ public class CommentService {
                 .likes(commentDto.getLikes())
                 .comment_Create_Time(commentDto.getComment_Create_Time())
                 .comment_Update_Time(commentDto.getComment_Update_Time())
+                .post(commentDto.getPost())
                 .build();
 
         // 유저 아이디에 해당하는 코드 작성해야 함

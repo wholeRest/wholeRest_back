@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 //              .Content("저는 홍길동입니다")
 //              .build();
 public class PostDto {
-    private Long post_id;
+    private Long id;
     private String title;
     private String content;
     private int views;

@@ -1,5 +1,6 @@
 package org.example.rest_back.Post.Domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,8 +59,10 @@ public class Comment {
     // 여러개의 Comment가 하나의 Post와 연결될 수 있음 => 다대일 관계
     // @JoinColumn : 외래키 지정
     // post_id는 Comment 테이블에서 Post 테이블을 참조하는 외래키 컬럼
+    @Getter
     @ManyToOne
     @JoinColumn(name = "post_id")
+    @JsonManagedReference
     private Post post;
 
     // Entity가 DB에 insert되기 전에 자동으로 호출됨

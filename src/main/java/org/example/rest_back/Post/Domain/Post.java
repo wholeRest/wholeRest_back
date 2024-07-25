@@ -30,7 +30,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
-    private Long post_id;
+    private Long id;
 
     // 유저아이디값을 외래키로 가짐 (String)
     // @ManyToOne
@@ -77,7 +77,9 @@ public class Post {
     }
 
     // Entity가 DB에 Update되기 전에 자동으로 호출됨
-    // DB에 게시글 수정 시간 자동으로 삽압 (수정시간에만 적용)
+    // DB에 게시글 수정 시간 자동으로 삽입 (수정시간에만 적용)
+    // Entity 변경이 아닌 실제 DB에 있는 데이터가 변경되는 경우 호출됨
+    // 즉, 실제 SQL 업데이트 문이 나가야 해당 콜백이 호출됨
     @PreUpdate
     protected void onUpdate() {
         this.post_Update_Time = LocalDateTime.now();
