@@ -7,17 +7,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.rest_back.user.service.UserDetailService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // 요청의 JWT를 확인하고, 유효성을 검증 -> 유효한 JWT 가 발견되면 Security Context에 인증 정보 설정
     // 요청이 들어올 때 마다 토큰을 검사하하고 유효성 확인

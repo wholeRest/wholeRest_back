@@ -2,6 +2,7 @@ package org.example.rest_back.user.config.security;
 
 import org.example.rest_back.user.config.jwt.JwtAuthenticationEntryPoint;
 import org.example.rest_back.user.config.jwt.JwtAuthenticationFilter;
+import org.example.rest_back.user.config.jwt.JwtUtils;
 import org.example.rest_back.user.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,21 +23,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig{
     // SecurityConfig : API 엔드포인트 접근 관련 설정
     private final UserDetailService userDetailService;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtUtils jwtUtils;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    public SecurityConfig(UserDetailService userDetailService, JwtAuthenticationFilter jwtAuthenticationFilter, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
+    public SecurityConfig(UserDetailService userDetailService, JwtUtils jwtUtils, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
         this.userDetailService = userDetailService;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.jwtUtils = jwtUtils;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/h2-console/**")) // H2 콘솔에 대한 CSRF 비활성화
+                .securityMatcher("/api/auth/**","/h2-console/**")
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll() // 인증 없이 접근 허용 (로그인, 회원가입 등)
                         .requestMatchers("/h2-console/**").permitAll() // H2 콘솔 접근 허용
@@ -48,10 +49,7 @@ public class SecurityConfig{
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 사용 안 함
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // JWT 필터 등록
-                .headers(headers -> headers
-                        .frameOptions().sameOrigin() // H2 콘솔을 위한 프레임 옵션 설정
-                );
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils, userDetailService), UsernamePasswordAuthenticationFilter.class); // JWT 필터 등록
 
         return http.build();
     }
