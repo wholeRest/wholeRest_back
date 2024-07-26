@@ -60,7 +60,7 @@ public class AuthController {
 
         String jwt = jwtUtils.createToken(userDetails);
         String refreshToken = refreshTokenService.createRefreshToken(userDetails.getUsername());
-        return ResponseEntity.ok(new JwtResponseDto("로그인 완료", HttpStatus.OK.value(),jwt,refreshToken));
+        return ResponseEntity.ok(new JwtResponseDto("로그인에 성공하였습니다.", HttpStatus.OK.value(),jwt,refreshToken));
     }
 
 

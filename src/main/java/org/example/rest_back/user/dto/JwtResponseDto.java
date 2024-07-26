@@ -8,6 +8,6 @@ import lombok.Getter;
 public class JwtResponseDto {
     private String msg;
     private int statusCode;
-    private String token;
+    private String accessToken;
     private String refreshToken;
 }

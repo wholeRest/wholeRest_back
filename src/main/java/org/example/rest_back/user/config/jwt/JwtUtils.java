@@ -41,14 +41,13 @@ public class JwtUtils {
         // User 객체를 통해 JWT 토큰 생성
         Date now = new Date();
 
-        return BEARER_PREFIX +
-                Jwts.builder()
-                        .setSubject(userDetails.getUsername()) // 사용자 ID를 주제로 설정
-                        .claim("email", ((User)userDetails).getEmail()) // 이메일을 클레임으로 추가
-                        .setExpiration(new Date(now.getTime() + TOKEN_EXPIRATION_TIME))
-                        .setIssuedAt(now)
-                        .signWith(key, SIGNATURE_ALGORITHM)
-                        .compact();
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername()) // 사용자 ID를 주제로 설정
+                .claim("email", ((User)userDetails).getEmail()) // 이메일을 클레임으로 추가
+                .setExpiration(new Date(now.getTime() + TOKEN_EXPIRATION_TIME))
+                .setIssuedAt(now)
+                .signWith(key, SIGNATURE_ALGORITHM)
+                .compact();
     }
 
     public String getJwtFromHeader(HttpServletRequest request) {
