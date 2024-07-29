@@ -7,6 +7,7 @@ import org.example.rest_back.user.domain.User;
 import org.example.rest_back.user.domain.exception.InvalidPasswordException;
 import org.example.rest_back.user.domain.exception.UserAlreadyExistsException;
 import org.example.rest_back.user.domain.exception.UserNotFoundException;
+import org.example.rest_back.user.dto.IdDuplicationDto;
 import org.example.rest_back.user.dto.LoginDto;
 import org.example.rest_back.user.dto.RegistrationDto;
 import org.example.rest_back.user.repository.UserRepository;
@@ -34,11 +35,12 @@ public class UserService {
         String email = requestDto.getEmail();
         String phoneNumber = requestDto.getPhoneNumber();
 
-        // 아이디 중복 확인 로직
+        // 아이디 중복 검사를 하지 않고 바로 폼 제출을 누르는 케이스가 존재할수도 있기에
+        // 중복 체크 로직을 회원가입에서도 재확인용으로 한번 더 추가.
         Optional<User> checkUserId = userRepository.findByUserId(userId);
 
         if (checkUserId.isPresent()) {
-            throw new UserAlreadyExistsException("이미 중복된 사용자가 존재합니다.");
+            throw new UserAlreadyExistsException("이미 존재하는 아이디입니다.");
         }
 
         // 비밀번호 암호화
@@ -46,6 +48,16 @@ public class UserService {
 
         User user = new User(userId, encodedPassword, name, nickname, email, phoneNumber);
         userRepository.save(user);
+    }
+
+    // 아이디 중복 확인
+    public void duplicationCheck(IdDuplicationDto idDuplicationDto){
+        String userID = idDuplicationDto.getUserId();
+        Optional<User> checkUserId = userRepository.findByUserId(userID);
+
+        if(checkUserId.isPresent()){
+            throw new UserAlreadyExistsException("이미 존재하는 아이디입니다.");
+        }
     }
 
     // 로그인

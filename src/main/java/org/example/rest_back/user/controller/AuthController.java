@@ -2,6 +2,7 @@ package org.example.rest_back.user.controller;
 
 import jakarta.validation.Valid;
 import org.example.rest_back.user.config.jwt.JwtUtils;
+import org.example.rest_back.user.domain.exception.UserAlreadyExistsException;
 import org.example.rest_back.user.dto.*;
 import org.example.rest_back.user.service.RefreshTokenService;
 import org.example.rest_back.user.service.UserDetailService;
@@ -39,10 +40,28 @@ public class AuthController {
         this.userDetailService = userDetailService;
     }
 
+    // 회원가입 
     @PostMapping("/signUp")
     public ResponseEntity<MsgResponseDto> signUp(@RequestBody @Valid RegistrationDto registrationDto) {
-        userService.signUp(registrationDto);
-        return ResponseEntity.ok(new MsgResponseDto("회원가입이 완료되었습니다.", HttpStatus.OK.value()));
+        // 중복 확인을 하지 않고 회원가입 하는 케이스 핸들링 추가
+        try {
+            userService.signUp(registrationDto);
+            return ResponseEntity.ok(new MsgResponseDto("회원가입이 완료되었습니다.", HttpStatus.OK.value()));
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new MsgResponseDto("이미 존재하는 아이디입니다.",HttpStatus.CONFLICT.value()));
+        }
+    }
+    @PostMapping("/duplicationCheck")
+    public ResponseEntity<MsgResponseDto> duplicationCheck(@RequestBody @Valid IdDuplicationDto idDuplicationDto) {
+        try {
+            userService.duplicationCheck(idDuplicationDto);
+            // 만약에 서비스 로직에서 예외가 발생한다면 -> 아래 캐치를 통해서 예외처리
+            return ResponseEntity.ok(new MsgResponseDto("사용 가능한 아이디입니다.",HttpStatus.OK.value()));
+        }catch(UserAlreadyExistsException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new MsgResponseDto("이미 존재하는 아이디입니다.",HttpStatus.CONFLICT.value()));
+        }
     }
 
     @PostMapping("/login")
