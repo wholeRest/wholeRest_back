@@ -1,5 +1,8 @@
 package org.example.rest_back.Post.Domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.models.info.License;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.rest_back.Post.Dto.PostDto;
@@ -32,10 +35,11 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
 
-    // 유저아이디값을 외래키로 가짐 (String)
-    // @ManyToOne
-    // JoinColumn(name = "user_id")
-    // private User user_id;
+     //유저아이디값을 외래키로 가짐 (String)
+     @ManyToOne
+     @JsonBackReference
+     @JoinColumn(name = "user_id")
+     private Users users;
 
     // 게시물 제목
     private String title;
@@ -46,8 +50,8 @@ public class Post {
     // 게시물 조회수
     private int views;
 
-    //게시물 좋아요수
-    private int likes;
+    // 게시물 좋아요수
+    private int likes_count;
 
     // 게시물의 카테고리
     private String category;
@@ -66,7 +70,13 @@ public class Post {
     // Comment 엔터티에서 Post 엔터티와의 관계를 나타내는 필드 존재 (private Post post)
     // 따라서 mappedBy에서는 Comment엔터티에서 Post엔터티를 참조하는 post필드를 참조해야 함.
     @OneToMany(mappedBy = "post")
+    @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
+
+    // 게시글 좋아요
+    @OneToMany(mappedBy = "post")
+    @JsonManagedReference
+    private List<Likes> likes = new ArrayList<>();
 
     // Entity가 DB에 insert되기 전에 자동으로 호출됨
     // DB에 게시글 생성 시간 자동으로 삽입 (생성시간, 수정시간 모두 동일하게 적용)
@@ -95,4 +105,15 @@ public class Post {
         }
     }
 
+    public void addLike(int n){
+        this.likes_count += n;
+    }
+
+    public void deleteLike(int n){
+        this.likes_count -= n;
+    }
+
+    public void addViews(int n){
+        this.views += n;
+    }
 }

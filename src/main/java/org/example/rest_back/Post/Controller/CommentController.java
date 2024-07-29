@@ -27,7 +27,7 @@ public class CommentController {
     // Create, 댓글 생성
     // 유저 아이디 확인하는 로직 작성해야 함
     @PostMapping({"/posts/{post_id}"})
-    public ResponseEntity<CommentDto> registerComment(@PathVariable(name = "post_id")Long post_id, @RequestBody String content){
+    public ResponseEntity<CommentDto> registerComment(@PathVariable(name = "post_id")Long post_id, @ModelAttribute String content){
         Optional<Post> postOptional = postRepository.findById(post_id);
         if (postOptional.isPresent()){
             Comment comment = commentService.registerComment(post_id, content);
@@ -54,7 +54,7 @@ public class CommentController {
 
     // Update, 댓글 수정
     @PatchMapping("/{id}")
-    public ResponseEntity<CommentDto> updateComment(@PathVariable(name = "id")Long id, @RequestBody CommentDto commentDto){
+    public ResponseEntity<CommentDto> updateComment(@PathVariable(name = "id")Long id, @ModelAttribute CommentDto commentDto){
         try {
             Comment comment = commentService.updateComment(id, commentDto);
             return ResponseEntity.ok(commentService.convertToDto(comment));

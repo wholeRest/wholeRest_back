@@ -1,5 +1,6 @@
 package org.example.rest_back.Post.Domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,9 +36,6 @@ public class Comment {
     @Column(name = "comment_id")
     private Long comment_id;
 
-    // 좋아요수
-    private int likes;
-
     // 댓글 내용
     private String content;
 
@@ -52,9 +50,10 @@ public class Comment {
     private LocalDateTime comment_Update_Time;
 
     // 유저아이디값을 외래키로 가짐.(String)
-    // @ManyToOne
-    // @JoinColumn(name = "user_id")
-    // private User user_id;
+     @ManyToOne
+     @JoinColumn(name = "user_id")
+     @JsonBackReference
+     private Users users;
 
     // 여러개의 Comment가 하나의 Post와 연결될 수 있음 => 다대일 관계
     // @JoinColumn : 외래키 지정
@@ -62,7 +61,7 @@ public class Comment {
     @Getter
     @ManyToOne
     @JoinColumn(name = "post_id")
-    @JsonManagedReference
+    @JsonBackReference
     private Post post;
 
     // Entity가 DB에 insert되기 전에 자동으로 호출됨

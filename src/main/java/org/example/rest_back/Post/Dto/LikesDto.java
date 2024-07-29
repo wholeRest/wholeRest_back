@@ -4,9 +4,6 @@ import lombok.*;
 import org.example.rest_back.Post.Domain.Post;
 import org.example.rest_back.Post.Domain.Users;
 
-import java.time.LocalDateTime;
-
-// 계층간 데이터 교환을 위한 클래스
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,13 +17,10 @@ import java.time.LocalDateTime;
 //              .Title("안녕하세요")
 //              .Content("저는 홍길동입니다")
 //              .build();
-public class CommentDto {
-    private Long comment_id;
-    private String content;
-    private LocalDateTime comment_Create_Time;
-    private LocalDateTime comment_Update_Time;
-    private Post post;
-    private Long post_id;
+public class LikesDto {
+    private Long id;
     private Long user_id;
+    private Long post_id;
     private Users users;
+    private Post post;
 }

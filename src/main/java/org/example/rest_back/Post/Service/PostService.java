@@ -1,5 +1,6 @@
 package org.example.rest_back.Post.Service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.rest_back.Post.Domain.Post;
 import org.example.rest_back.Post.Dto.PostDto;
 import org.example.rest_back.Post.Repository.PostRepository;
@@ -41,6 +42,9 @@ public class PostService {
     // Read Only One, 단 하나의 게시물만 조회, id값으로 조회
     // Optional : 값이 있을 수도 있고 없을 수도 있는 객체. null 참조를 피함
     public Optional<Post> getPostById(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id " + id));
+        post.addViews(1); // 사용자가 게시물 조회 시 조회수 증가
+        postRepository.save(post); // 변경된 조회수를 DB에 반영
         return postRepository.findById(id);
     }
 
@@ -82,10 +86,11 @@ public class PostService {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .views(post.getViews())
-                .likes(post.getLikes())
                 .category(post.getCategory())
+                .likes_count(post.getLikes_count())
                 .post_Create_Time(post.getPost_Create_Time())
                 .post_Update_Time(post.getPost_Update_Time())
+                .user_id(post.getUsers().getId())
                 .build();
 
         // 유저 아이디에 해당하는 코드 작성해야 함
@@ -99,10 +104,11 @@ public class PostService {
                 .title(postDto.getTitle())
                 .content(postDto.getContent())
                 .views(postDto.getViews())
-                .likes(postDto.getLikes())
                 .category(postDto.getCategory())
+                .likes_count(postDto.getLikes_count())
                 .post_Create_Time(postDto.getPost_Create_Time())
                 .post_Update_Time(postDto.getPost_Update_Time())
+                .users(postDto.getUsers())
                 .build();
 
         // 유저 아이디에 해당하는 코드 작성해야 함

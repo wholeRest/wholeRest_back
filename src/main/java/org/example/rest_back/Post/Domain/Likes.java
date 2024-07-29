@@ -1,14 +1,14 @@
-package org.example.rest_back.Post.Dto;
+package org.example.rest_back.Post.Domain;
 
-import lombok.*;
-import org.example.rest_back.Post.Domain.Post;
-import org.example.rest_back.Post.Domain.Users;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
-// 계층간 데이터 교환을 위한 클래스
+@Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 // @NoArgsConstructor : 파라미터가 없는 디폴트 생성자를 자동으로 생성
@@ -20,13 +20,19 @@ import java.time.LocalDateTime;
 //              .Title("안녕하세요")
 //              .Content("저는 홍길동입니다")
 //              .build();
-public class CommentDto {
-    private Long comment_id;
-    private String content;
-    private LocalDateTime comment_Create_Time;
-    private LocalDateTime comment_Update_Time;
-    private Post post;
-    private Long post_id;
-    private Long user_id;
+public class Likes {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "like_id")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private Users users;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    @JsonBackReference
+    private Post post;
 }

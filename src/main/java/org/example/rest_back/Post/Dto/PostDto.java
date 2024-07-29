@@ -1,6 +1,8 @@
 package org.example.rest_back.Post.Dto;
 
 import lombok.*;
+import org.example.rest_back.Post.Domain.Users;
+
 import java.time.LocalDateTime;
 
 // 계층간 데이터 교환을 위한 클래스
@@ -22,9 +24,10 @@ public class PostDto {
     private String title;
     private String content;
     private int views;
-    private int likes;
     private String category;
     private LocalDateTime post_Create_Time;
     private LocalDateTime post_Update_Time;
-    //private Long user_id;
+    private Long user_id;
+    private Users users;
+    private int likes_count;
 }
