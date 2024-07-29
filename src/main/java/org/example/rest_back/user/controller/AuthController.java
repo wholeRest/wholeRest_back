@@ -1,13 +1,15 @@
 package org.example.rest_back.user.controller;
 
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.example.rest_back.user.config.jwt.JwtUtils;
 import org.example.rest_back.user.domain.exception.UserAlreadyExistsException;
 import org.example.rest_back.user.dto.*;
 import org.example.rest_back.user.service.RefreshTokenService;
 import org.example.rest_back.user.service.UserDetailService;
 import org.example.rest_back.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.rest_back.user.service.VerificationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,27 +22,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
-    private final AuthenticationManager authenticationManager;
+    private final VerificationService verificationService;
+
     private final JwtUtils jwtUtils;
+    private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
     private final UserDetailService userDetailService;
 
-    @Autowired
-    public AuthController(UserService userService, AuthenticationManager authenticationManager, JwtUtils jwtUtils,
-                          RefreshTokenService refreshTokenService, UserDetailService userDetailService) {
-        this.userService = userService;
-        this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
-        this.refreshTokenService = refreshTokenService;
-        this.userDetailService = userDetailService;
-    }
-
-    // 회원가입 
+    // 회원가입 API
     @PostMapping("/signUp")
     public ResponseEntity<MsgResponseDto> signUp(@RequestBody @Valid RegistrationDto registrationDto) {
         // 중복 확인을 하지 않고 회원가입 하는 케이스 핸들링 추가
@@ -49,21 +45,23 @@ public class AuthController {
             return ResponseEntity.ok(new MsgResponseDto("회원가입이 완료되었습니다.", HttpStatus.OK.value()));
         } catch (UserAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new MsgResponseDto("이미 존재하는 아이디입니다.",HttpStatus.CONFLICT.value()));
+                    .body(new MsgResponseDto("이미 존재하는 아이디입니다.", HttpStatus.CONFLICT.value()));
         }
     }
+    // 아이디 중복 검사 API
     @PostMapping("/duplicationCheck")
     public ResponseEntity<MsgResponseDto> duplicationCheck(@RequestBody @Valid IdDuplicationDto idDuplicationDto) {
         try {
             userService.duplicationCheck(idDuplicationDto);
             // 만약에 서비스 로직에서 예외가 발생한다면 -> 아래 캐치를 통해서 예외처리
-            return ResponseEntity.ok(new MsgResponseDto("사용 가능한 아이디입니다.",HttpStatus.OK.value()));
-        }catch(UserAlreadyExistsException e){
+            return ResponseEntity.ok(new MsgResponseDto("사용 가능한 아이디입니다.", HttpStatus.OK.value()));
+        } catch (UserAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new MsgResponseDto("이미 존재하는 아이디입니다.",HttpStatus.CONFLICT.value()));
+                    .body(new MsgResponseDto("이미 존재하는 아이디입니다.", HttpStatus.CONFLICT.value()));
         }
     }
 
+    // 로그인 API
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDto> login(@RequestBody @Valid LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(
