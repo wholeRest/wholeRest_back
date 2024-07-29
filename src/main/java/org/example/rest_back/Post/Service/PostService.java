@@ -15,10 +15,12 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final ImageService imageService;
 
     @Autowired
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, ImageService imageService) {
         this.postRepository = postRepository;
+        this.imageService = imageService;
     }
 
     // Create, 게시물 생성
@@ -78,6 +80,29 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
+    // Delete image, 게시물 내의 이미지 삭제
+    public void deleteImageFromPost(Long id, String imageUrl) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid post ID"));
+        List<String> imgUrls = post.getImgURLs();
+
+        if (imgUrls.contains(imageUrl)) {
+            imgUrls.remove(imageUrl);
+            Post newPost = Post.builder()
+                    .title(post.getTitle())
+                    .id(post.getId())
+                    .content(post.getContent())
+                    .category(post.getCategory())
+                    .likes_count(post.getLikes_count())
+                    .views(post.getViews())
+                    .imgURLs(imgUrls)
+                    .users(post.getUsers())
+                    .build();
+
+            postRepository.save(newPost);
+            imageService.deleteFileInS3(imageUrl);
+        }
+    }
+
     // Entity -> Dto
     public PostDto convertToDto(Post post){
         // Entity(post)객체를 Dto(PostDto)객체로 전환
@@ -91,6 +116,7 @@ public class PostService {
                 .post_Create_Time(post.getPost_Create_Time())
                 .post_Update_Time(post.getPost_Update_Time())
                 .user_id(post.getUsers().getId())
+                .imgURLs(post.getImgURLs())
                 .build();
 
         // 유저 아이디에 해당하는 코드 작성해야 함
@@ -109,6 +135,7 @@ public class PostService {
                 .post_Create_Time(postDto.getPost_Create_Time())
                 .post_Update_Time(postDto.getPost_Update_Time())
                 .users(postDto.getUsers())
+                .imgURLs(postDto.getImgURLs())
                 .build();
 
         // 유저 아이디에 해당하는 코드 작성해야 함

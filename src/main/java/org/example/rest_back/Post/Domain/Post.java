@@ -2,12 +2,12 @@ package org.example.rest_back.Post.Domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import io.swagger.v3.oas.models.info.License;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.rest_back.Post.Dto.PostDto;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +55,10 @@ public class Post {
 
     // 게시물의 카테고리
     private String category;
+
+    // S3에 저장된 이미지 주소
+    @ElementCollection
+    private List<String> imgURLs;
 
     // 게시물 생성 시간
     // @CreationTimestamp : insert 쿼리 발생 시, 즉 데이터가 생성된 시점에 대한 생성 시간 저장

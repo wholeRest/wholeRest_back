@@ -39,6 +39,7 @@ public class PostController {
                 .content(postDto.getContent())
                 .category(postDto.getCategory())
                 .users(users)
+                .imgURLs(postDto.getImgURLs())
                 .build();
         Post registeredPost = postService.registerPost(post);
 

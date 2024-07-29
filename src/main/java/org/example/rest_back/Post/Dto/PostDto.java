@@ -4,6 +4,7 @@ import lombok.*;
 import org.example.rest_back.Post.Domain.Users;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 // 계층간 데이터 교환을 위한 클래스
 @Getter
@@ -30,4 +31,5 @@ public class PostDto {
     private Long user_id;
     private Users users;
     private int likes_count;
+    private List<String> imgURLs;
 }
