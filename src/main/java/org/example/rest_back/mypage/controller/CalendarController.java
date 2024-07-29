@@ -7,11 +7,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping(path="/api/calendar")
 public class CalendarController {
     private final CalendarService calendarService;
+
+    //get all
+    @GetMapping
+    public ResponseEntity<List<CalendarDto>> getAllCalendar(){
+        List<CalendarDto> calendars = calendarService.getAllCalendar();
+        return ResponseEntity.ok(calendars);
+    }
 
     //Get
     @GetMapping("/{memberId}")

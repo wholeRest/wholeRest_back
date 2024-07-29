@@ -9,11 +9,22 @@ import org.example.rest_back.mypage.repository.CalendarRepository;
 import org.example.rest_back.mypage.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class CalendarService {
     private final CalendarRepository calendarRepository;
     private final MemberRepository memberRepository;
+
+    //get All
+    public List<CalendarDto> getAllCalendar(){
+        List<Calendar> calendars = calendarRepository.findAll();
+        return calendars.stream()
+                .map(CalendarDto::from)
+                .collect(Collectors.toList());
+    }
 
     //Read
     public CalendarDto getCalendarByMemberId(String member_id){

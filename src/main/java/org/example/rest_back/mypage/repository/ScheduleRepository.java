@@ -12,14 +12,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
-    List<Schedule> findByCalendar(Calendar calendar);
+    List<Schedule> findByMember(Member member);
 
     @Query("SELECT s FROM Schedule s WHERE " +
-            "s.calendar.calendar_id = :calendarId AND (" +
+            "s.member.member_id = :memberId AND (" +
             "(YEAR(s.start_date) = :year AND MONTH(s.start_date) = :month) OR " +
             "(YEAR(s.end_date) = :year AND MONTH(s.end_date) = :month) OR " +
             "(s.start_date <= :endOfMonth AND s.end_date >= :startOfMonth))")
-    List<Schedule> findAllByCalendarIdAndYearAndMonth(@Param("calendarId") int calendarId,
+    List<Schedule> findAllByMemberIdAndYearAndMonth(@Param("memberId") String memberId,
                                                       @Param("year") int year, @Param("month") int month,
                                                       @Param("startOfMonth") LocalDate startOfMonth,
                                                       @Param("endOfMonth") LocalDate endOfMonth);

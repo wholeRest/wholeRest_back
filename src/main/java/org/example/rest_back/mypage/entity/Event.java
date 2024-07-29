@@ -18,8 +18,8 @@ public class Event {
     private int event_id;
 
     @ManyToOne
-    @JoinColumn(name = "calendar_id", nullable = false)
-    private Calendar calendar;
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @Column(unique = true)
     private LocalDate date;
@@ -32,5 +32,8 @@ public class Event {
     private String morning_image_url;
     private String lunch_image_url;
     private String dinner_image_url;
+    private String morning_image_filename;
+    private String lunch_image_filename;
+    private String dinner_image_filename;
     private String today_memo;
 }

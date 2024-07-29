@@ -6,8 +6,8 @@ springdoc:
 swagger-ui:
   enabled: true
   path: /swagger-ui.html
-paths-to-match:
-  - /api/**
+  paths-to-match:
+    - /api/**
 
 #database
 spring:
@@ -15,6 +15,7 @@ spring:
     url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
     username: ${RDS_USERNAME}
     password: ${RDS_PASSWORD}
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -22,3 +23,19 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+  servlet:
+    multipart:
+      maxFileSize: 20MB
+      maxRequestSize: 100MB
+
+#S3
+cloud:
+  aws:
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}

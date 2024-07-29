@@ -2,11 +2,14 @@ package org.example.rest_back.mypage.controller;
 
 import lombok.AllArgsConstructor;
 import org.example.rest_back.mypage.dto.EventDto;
+import org.example.rest_back.mypage.dto.EventResponseDto;
 import org.example.rest_back.mypage.service.EventService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -17,35 +20,35 @@ public class EventController {
 
     //get all events
     @GetMapping
-    public ResponseEntity<List<EventDto>> getAllEvents(){
-        List<EventDto> events = eventService.getAllEvents();
+    public ResponseEntity<List<EventResponseDto>> getAllEvents(){
+        List<EventResponseDto> events = eventService.getAllEvents();
         return ResponseEntity.ok(events);
     }
 
-    //get event by calendarId
-    @GetMapping("/{calendarId}")
-    public ResponseEntity<List<EventDto>> getEventByCalendarId(@PathVariable int calendarId){
-        List<EventDto> events = eventService.getEventsByCalendarId(calendarId);
+    //get event by memberId
+    @GetMapping("/{memberId}")
+    public ResponseEntity<List<EventResponseDto>> getEventByMemberId(@PathVariable String memberId){
+        List<EventResponseDto> events = eventService.getEventsByMemberId(memberId);
         return ResponseEntity.ok(events);
     }
 
-    //get by calendarId and Date
+    //get by memberId and Date
     @GetMapping("/date")
-    public ResponseEntity<List<EventDto>> getEventByCalendarIdAndDate(@RequestParam int calendarId, @RequestParam int year, @RequestParam int month){
-        List<EventDto> events = eventService.getEventsByCalendarIdAndDate(calendarId, year, month);
+    public ResponseEntity<List<EventResponseDto>> getEventByMemberIdAndDate(@RequestParam String memberId, @RequestParam LocalDate date){
+        List<EventResponseDto> events = eventService.getEventsByMemberIdAndDate(memberId, date);
         return ResponseEntity.ok(events);
     }
 
     //create event
     @PostMapping
-    public ResponseEntity<Void> createEvent(@RequestBody EventDto eventDto){
+    public ResponseEntity<Void> createEvent(@ModelAttribute EventDto eventDto) throws IOException {
         eventService.createEvent(eventDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     //patch event
     @PatchMapping("/{eventId}")
-    public ResponseEntity<Void> updateEvent(@PathVariable int eventId, @RequestBody EventDto eventDto){
+    public ResponseEntity<Void> updateEvent(@PathVariable int eventId, @ModelAttribute EventDto eventDto) throws IOException {
         eventService.updateEvent(eventId, eventDto);
         return ResponseEntity.ok().build();
     }

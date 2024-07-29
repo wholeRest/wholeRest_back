@@ -16,8 +16,8 @@ public class Schedule {
     private int schedule_id;
 
     @ManyToOne
-    @JoinColumn(name = "calendar_id", nullable = false)
-    private Calendar calendar;
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     private LocalDate start_date;
     private LocalDate end_date;

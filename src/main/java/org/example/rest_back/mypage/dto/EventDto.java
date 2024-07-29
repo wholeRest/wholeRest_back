@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.rest_back.mypage.entity.Event;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -13,32 +14,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EventDto {
     private int event_id;
-    private int calendar_id;
+    private String member_id;
     private LocalDate date;
-    private Integer emoji;
+    private Integer emoji = 0;
     private String today_feel;
     private String today_condition;
     private String today_routine;
     private String today_appreciation;
-    private String morning_image_url;
-    private String lunch_image_url;
-    private String dinner_image_url;
+    private MultipartFile morning_image_file;
+    private MultipartFile lunch_image_file;
+    private MultipartFile dinner_image_file;
     private String today_memo;
-
-    public static EventDto from(Event event){
-        EventDto dto = new EventDto();
-        dto.setEvent_id(event.getEvent_id());
-        dto.setCalendar_id(event.getCalendar().getCalendar_id());
-        dto.setDate(event.getDate());
-        dto.setEmoji(event.getEmoji());
-        dto.setToday_feel(event.getToday_feel());
-        dto.setToday_condition(event.getToday_condition());
-        dto.setToday_routine(event.getToday_routine());
-        dto.setToday_appreciation(event.getToday_appreciation());
-        dto.setMorning_image_url(event.getMorning_image_url());
-        dto.setLunch_image_url(event.getLunch_image_url());
-        dto.setDinner_image_url(event.getDinner_image_url());
-        dto.setToday_memo(event.getToday_memo());
-        return dto;
-    }
 }

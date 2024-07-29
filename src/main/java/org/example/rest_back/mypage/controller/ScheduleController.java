@@ -23,16 +23,16 @@ public class ScheduleController {
     }
 
     //get schedule by calendarId
-    @GetMapping("/{calendarId}")
-    public ResponseEntity<List<ScheduleDto>> getScheduleByCalendarId(@PathVariable int calendarId){
-        List<ScheduleDto> schedules = scheduleService.getSchedulesByCalendarId(calendarId);
+    @GetMapping("/{memberId}")
+    public ResponseEntity<List<ScheduleDto>> getScheduleByMemberId(@PathVariable String memberId){
+        List<ScheduleDto> schedules = scheduleService.getSchedulesByMemberId(memberId);
         return ResponseEntity.ok(schedules);
     }
 
     //get schedule by date
     @GetMapping("/date")
-    public ResponseEntity<List<ScheduleDto>> getScheduleByCalendarIdAndDate(@RequestParam int calendarId, @RequestParam int year, @RequestParam int month){
-        List<ScheduleDto> schedules = scheduleService.getSchedulesByCalendarIdAndDate(calendarId, year, month);
+    public ResponseEntity<List<ScheduleDto>> getScheduleByMemberIdAndDate(@RequestParam String memberId, @RequestParam int year, @RequestParam int month){
+        List<ScheduleDto> schedules = scheduleService.getSchedulesByMemberIdAndDate(memberId, year, month);
         return ResponseEntity.ok(schedules);
     }
 
