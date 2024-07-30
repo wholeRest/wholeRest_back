@@ -2,7 +2,7 @@ package org.example.rest_back.user.service;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.rest_back.user.config.jwt.JwtUtils;
+import org.example.rest_back.config.jwt.JwtUtils;
 import org.example.rest_back.user.domain.User;
 import org.example.rest_back.user.domain.exception.InvalidPasswordException;
 import org.example.rest_back.user.domain.exception.UserAlreadyExistsException;

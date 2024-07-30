@@ -1,4 +1,4 @@
-package org.example.rest_back.user.config.jwt;
+package org.example.rest_back.config.jwt;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

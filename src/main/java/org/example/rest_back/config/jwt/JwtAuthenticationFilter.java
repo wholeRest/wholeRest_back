@@ -1,4 +1,4 @@
-package org.example.rest_back.user.config.jwt;
+package org.example.rest_back.config.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;

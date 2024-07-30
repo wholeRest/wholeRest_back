@@ -3,7 +3,7 @@ package org.example.rest_back.user.controller;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.rest_back.user.config.jwt.JwtUtils;
+import org.example.rest_back.config.jwt.JwtUtils;
 import org.example.rest_back.user.domain.exception.UserAlreadyExistsException;
 import org.example.rest_back.user.dto.*;
 import org.example.rest_back.user.service.RefreshTokenService;
