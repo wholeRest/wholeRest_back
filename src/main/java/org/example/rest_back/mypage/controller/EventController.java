@@ -1,5 +1,6 @@
 package org.example.rest_back.mypage.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.example.rest_back.mypage.dto.EventDto;
 import org.example.rest_back.mypage.dto.EventResponseDto;
@@ -18,45 +19,38 @@ import java.util.List;
 public class EventController {
     private final EventService eventService;
 
-    //get all events
-    @GetMapping
-    public ResponseEntity<List<EventResponseDto>> getAllEvents(){
-        List<EventResponseDto> events = eventService.getAllEvents();
-        return ResponseEntity.ok(events);
-    }
-
     //get event by memberId
-    @GetMapping("/{memberId}")
-    public ResponseEntity<List<EventResponseDto>> getEventByMemberId(@PathVariable String memberId){
-        List<EventResponseDto> events = eventService.getEventsByMemberId(memberId);
+    @GetMapping
+    public ResponseEntity<List<EventResponseDto>> getEventByMemberId(HttpServletRequest request){
+        List<EventResponseDto> events = eventService.getEventsByMemberId(request);
         return ResponseEntity.ok(events);
     }
 
     //get by memberId and Date
     @GetMapping("/date")
-    public ResponseEntity<List<EventResponseDto>> getEventByMemberIdAndDate(@RequestParam String memberId, @RequestParam LocalDate date){
-        List<EventResponseDto> events = eventService.getEventsByMemberIdAndDate(memberId, date);
+    public ResponseEntity<List<EventResponseDto>> getEventByMemberIdAndDate(@RequestParam LocalDate date, HttpServletRequest request){
+        List<EventResponseDto> events = eventService.getEventsByMemberIdAndDate(date, request);
         return ResponseEntity.ok(events);
     }
 
     //create event
     @PostMapping
-    public ResponseEntity<Void> createEvent(@ModelAttribute EventDto eventDto) throws IOException {
-        eventService.createEvent(eventDto);
+    public ResponseEntity<Void> createEvent(@ModelAttribute EventDto eventDto, HttpServletRequest request) throws IOException {
+        eventService.createEvent(eventDto, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     //patch event
     @PatchMapping("/{eventId}")
-    public ResponseEntity<Void> updateEvent(@PathVariable int eventId, @ModelAttribute EventDto eventDto) throws IOException {
-        eventService.updateEvent(eventId, eventDto);
+    public ResponseEntity<Void> updateEvent(@PathVariable int eventId, @ModelAttribute EventDto eventDto, HttpServletRequest request) throws IOException {
+        eventService.updateEvent(eventId, eventDto, request);
         return ResponseEntity.ok().build();
     }
 
     //delete event
     @DeleteMapping("/{eventId}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable int eventId){
-        eventService.deleteEvent(eventId);
+    public ResponseEntity<Void> deleteEvent(@PathVariable int eventId, HttpServletRequest request){
+        eventService.deleteEvent(eventId, request);
         return ResponseEntity.ok().build();
     }
 }

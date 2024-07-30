@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.rest_back.user.domain.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public class Todo {
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    private User user;
 
     private String content;
     private Boolean completed;
