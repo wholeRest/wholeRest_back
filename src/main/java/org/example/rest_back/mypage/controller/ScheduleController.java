@@ -1,5 +1,6 @@
 package org.example.rest_back.mypage.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.example.rest_back.mypage.dto.ScheduleDto;
 import org.example.rest_back.mypage.service.ScheduleService;
@@ -15,45 +16,38 @@ import java.util.List;
 public class ScheduleController {
     private final ScheduleService scheduleService;
 
-    //get all schedules
+    //get schedule by memberId
     @GetMapping
-    public ResponseEntity<List<ScheduleDto>> getAllSchedules(){
-        List<ScheduleDto> schedules = scheduleService.getAllSchedules();
-        return ResponseEntity.ok(schedules);
-    }
-
-    //get schedule by calendarId
-    @GetMapping("/{memberId}")
-    public ResponseEntity<List<ScheduleDto>> getScheduleByMemberId(@PathVariable String memberId){
-        List<ScheduleDto> schedules = scheduleService.getSchedulesByMemberId(memberId);
+    public ResponseEntity<List<ScheduleDto>> getScheduleByMemberId(HttpServletRequest request){
+        List<ScheduleDto> schedules = scheduleService.getSchedulesByMemberId(request);
         return ResponseEntity.ok(schedules);
     }
 
     //get schedule by date
     @GetMapping("/date")
-    public ResponseEntity<List<ScheduleDto>> getScheduleByMemberIdAndDate(@RequestParam String memberId, @RequestParam int year, @RequestParam int month){
-        List<ScheduleDto> schedules = scheduleService.getSchedulesByMemberIdAndDate(memberId, year, month);
+    public ResponseEntity<List<ScheduleDto>> getScheduleByMemberIdAndDate(@RequestParam int year, @RequestParam int month, HttpServletRequest request){
+        List<ScheduleDto> schedules = scheduleService.getSchedulesByMemberIdAndDate(year, month, request);
         return ResponseEntity.ok(schedules);
     }
 
     //create schedule
     @PostMapping
-    public ResponseEntity<Void> createSchedule(@RequestBody ScheduleDto scheduleDto){
-        scheduleService.createSchedule(scheduleDto);
+    public ResponseEntity<Void> createSchedule(@RequestBody ScheduleDto scheduleDto, HttpServletRequest request){
+        scheduleService.createSchedule(scheduleDto, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     //patch schedule
     @PatchMapping("/{scheduleId}")
-    public ResponseEntity<Void> updateSchedule(@PathVariable int scheduleId, @RequestBody ScheduleDto scheduleDto){
-        scheduleService.updateSchedule(scheduleId, scheduleDto);
+    public ResponseEntity<Void> updateSchedule(@PathVariable int scheduleId, @RequestBody ScheduleDto scheduleDto, HttpServletRequest request){
+        scheduleService.updateSchedule(scheduleId, scheduleDto, request);
         return ResponseEntity.ok().build();
     }
 
     //delete schedule
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable int scheduleId){
-        scheduleService.deleteSchedule(scheduleId);
+    public ResponseEntity<Void> deleteSchedule(@PathVariable int scheduleId, HttpServletRequest request){
+        scheduleService.deleteSchedule(scheduleId, request);
         return ResponseEntity.ok().build();
     }
 }

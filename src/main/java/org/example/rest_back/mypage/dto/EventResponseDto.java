@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EventResponseDto {
     private int event_id;
-    private String member_id;
+//    private String member_id;
     private LocalDate date;
     private Integer emoji;
     private String today_feel;
@@ -27,7 +27,7 @@ public class EventResponseDto {
     public static EventResponseDto from(Event event){
         EventResponseDto responseDto = new EventResponseDto();
         responseDto.setEvent_id(event.getEvent_id());
-        responseDto.setMember_id(event.getMember().getMember_id());
+//        responseDto.setMember_id(event.getMember().getMember_id());
         responseDto.setDate(event.getDate());
         responseDto.setEmoji(event.getEmoji());
         responseDto.setToday_feel(event.getToday_feel());
