@@ -1,7 +1,7 @@
 package org.example.rest_back.Post.Dto;
 
 import lombok.*;
-import org.example.rest_back.Post.Domain.Users;
+import org.example.rest_back.user.domain.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +29,7 @@ public class PostDto {
     private LocalDateTime post_Create_Time;
     private LocalDateTime post_Update_Time;
     private Long user_id;
-    private Users users;
+    private User user;
     private int likes_count;
     private List<String> imgURLs;
 }

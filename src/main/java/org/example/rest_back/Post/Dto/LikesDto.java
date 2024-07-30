@@ -2,7 +2,7 @@ package org.example.rest_back.Post.Dto;
 
 import lombok.*;
 import org.example.rest_back.Post.Domain.Post;
-import org.example.rest_back.Post.Domain.Users;
+import org.example.rest_back.user.domain.User;
 
 @Getter
 @Setter
@@ -21,6 +21,6 @@ public class LikesDto {
     private Long id;
     private Long user_id;
     private Long post_id;
-    private Users users;
+    private User user;
     private Post post;
 }

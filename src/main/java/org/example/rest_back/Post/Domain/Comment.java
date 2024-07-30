@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.rest_back.Post.Dto.CommentDto;
 import org.example.rest_back.Post.Dto.PostDto;
+import org.example.rest_back.user.domain.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
@@ -53,7 +54,7 @@ public class Comment {
      @ManyToOne
      @JoinColumn(name = "user_id")
      @JsonBackReference
-     private Users users;
+     private User user;
 
     // 여러개의 Comment가 하나의 Post와 연결될 수 있음 => 다대일 관계
     // @JoinColumn : 외래키 지정
