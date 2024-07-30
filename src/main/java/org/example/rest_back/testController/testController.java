@@ -1,4 +1,4 @@
-package org.example.rest_back.controller;
+package org.example.rest_back.testController;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
