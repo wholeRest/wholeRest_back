@@ -1,8 +1,8 @@
-package org.example.rest_back.user.config.security;
+package org.example.rest_back.config.security;
 
-import org.example.rest_back.user.config.jwt.JwtAuthenticationEntryPoint;
-import org.example.rest_back.user.config.jwt.JwtAuthenticationFilter;
-import org.example.rest_back.user.config.jwt.JwtUtils;
+import org.example.rest_back.config.jwt.JwtAuthenticationEntryPoint;
+import org.example.rest_back.config.jwt.JwtAuthenticationFilter;
+import org.example.rest_back.config.jwt.JwtUtils;
 import org.example.rest_back.user.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
