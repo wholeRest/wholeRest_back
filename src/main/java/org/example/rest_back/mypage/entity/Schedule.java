@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.rest_back.user.domain.User;
+
 import java.time.LocalDate;
 
 @Getter
@@ -16,8 +18,8 @@ public class Schedule {
     private int schedule_id;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     private LocalDate start_date;
     private LocalDate end_date;
