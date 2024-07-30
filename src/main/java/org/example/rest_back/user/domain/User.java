@@ -20,10 +20,10 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long user_id;
 
     @Column(unique = true, nullable = false)
-    private String userId;
+    private String member_id;
     // 중복 값 및 Null 값 허용되지 않게 설정
 
     @Column(nullable = false)
@@ -57,7 +57,7 @@ public class User implements UserDetails {
 
     @Override // Spring Security에서 사용자 식별을 위해 사용되는 메소드
     public String getUsername() {
-        return userId; // 식별을 위한 고유한 값;
+        return member_id; // 식별을 위한 고유한 값;
     }
 
     @Override
@@ -84,8 +84,8 @@ public class User implements UserDetails {
         return true;
     }
 
-    public User(String userId, String password, String name, String nickName, String email, String phoneNumber) {
-        this.userId = userId;
+    public User(String member_id, String password, String name, String nickName, String email, String phoneNumber) {
+        this.member_id = member_id;
         this.password = password;
         this.name = name;
         this.nickName = nickName;
