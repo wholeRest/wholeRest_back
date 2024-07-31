@@ -13,6 +13,7 @@ public class RestBackApplication {
 //		System.setProperty("spring.datasource.password", dotenv.get("RDS_PASSWORD"));
 
 		System.setProperty("AWS_S3_BUCKET", dotenv.get("AWS_S3_BUCKET"));
+
 		System.setProperty("AWS_ACCESS_KEY", dotenv.get("AWS_ACCESS_KEY"));
 		System.setProperty("AWS_SECRET_KEY", dotenv.get("AWS_SECRET_KEY"));
 
