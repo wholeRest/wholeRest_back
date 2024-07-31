@@ -1,10 +1,10 @@
 
 package org.example.rest_back.mypage.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.rest_back.mypage.entity.Event;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -14,6 +14,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EventDto {
     private int event_id;
+<<<<<<< HEAD
+=======
+    @NotBlank(message = "date필드에 값이 존재하지 않거나 공백이 포함되어 있습니다.")
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
     private LocalDate date;
     private Integer emoji = 0;
     private String today_feel;

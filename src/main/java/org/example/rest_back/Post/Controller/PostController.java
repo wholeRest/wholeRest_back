@@ -7,6 +7,7 @@ import org.example.rest_back.Post.Service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,10 @@ public class PostController {
     // 유저 아이디 확인하는 로직 작성해야 함
     @PostMapping
     public ResponseEntity<PostDto> registerPost(@ModelAttribute PostDto postDto, HttpServletRequest request) {
+<<<<<<< HEAD
+=======
 
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
         Post registeredPost = postService.registerPost(postDto, request);
 
         return ResponseEntity.ok(postService.convertToDto(registeredPost));

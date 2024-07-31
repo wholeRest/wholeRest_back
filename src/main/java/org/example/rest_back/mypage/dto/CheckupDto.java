@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Setter
 public class CheckupDto {
     private int checkup_id;
-    private int event_id;
     private String content;
     private Boolean completed;
     private LocalDate create_time;
@@ -23,7 +22,6 @@ public class CheckupDto {
     public static CheckupDto from(Checkup checkup){
         CheckupDto dto = new CheckupDto();
         dto.setCheckup_id(checkup.getCheckup_id());
-        dto.setEvent_id(checkup.getEvent().getEvent_id());
         dto.setContent(checkup.getContent());
         dto.setCompleted(checkup.getCompleted());
         dto.setCreate_time(checkup.getCreate_time());

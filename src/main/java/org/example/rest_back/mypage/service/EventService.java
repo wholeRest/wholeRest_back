@@ -4,6 +4,16 @@ import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.example.rest_back.config.jwt.JwtUtils;
+<<<<<<< HEAD
+import org.example.rest_back.exception.NotFoundException;
+import org.example.rest_back.exception.UnauthorizedException;
+import org.example.rest_back.exception.UserNotFoundException;
+import org.example.rest_back.mypage.dto.EventDto;
+import org.example.rest_back.mypage.dto.EventResponseDto;
+import org.example.rest_back.mypage.entity.Event;
+import org.example.rest_back.mypage.repository.EventRepository;
+import org.example.rest_back.user.domain.User;
+=======
 import org.example.rest_back.mypage.dto.EventDto;
 import org.example.rest_back.mypage.dto.EventResponseDto;
 import org.example.rest_back.mypage.entity.Event;
@@ -12,6 +22,7 @@ import org.example.rest_back.exception.UnauthorizedException;
 import org.example.rest_back.mypage.repository.EventRepository;
 import org.example.rest_back.user.domain.User;
 import org.example.rest_back.exception.UserNotFoundException;
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 import org.example.rest_back.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -153,41 +164,47 @@ public class EventService {
         String dinner_image_filename = event.getDinner_image_filename();
 
         //eventDto에 이미지 파일이 있는지 확인
-        if(eventDto.getMorning_image_file() == null){
-            if(morning_image_filename != null) {
-                //dto에 이미지가 없고 기존 DB에 이미지가 없다면 버킷에서 이미지 파일 제거
-                fileUploadService.deleteFile(morning_image_filename);
-                morning_image_url = null;
-                morning_image_filename = null;
+        if(eventDto.getMorning_image_file() != null){
+            //기존 DB에 이미지가 있을 경우
+            if(morning_image_filename != null){
+                //기존 DB 이미지와 새로 받은 이미지가 다를 경우
+                if(!morning_image_filename.equals(eventDto.getMorning_image_file().getOriginalFilename())){
+                    //기존 이미지 제거
+                    fileUploadService.deleteFile(morning_image_filename);
+                    //버킷에 파일 저장 후 url저장
+                    morning_image_url = fileUploadService.uploadFile(eventDto.getMorning_image_file());
+                    //원본 파일 이름 저장
+                    morning_image_filename = eventDto.getMorning_image_file().getOriginalFilename();
+                }
             }
-        } else{
-            //버킷에 파일 저장 후 url저장
-            morning_image_url = fileUploadService.uploadFile(eventDto.getMorning_image_file());
-            //원본 파일 이름 저장
-            morning_image_filename = eventDto.getMorning_image_file().getOriginalFilename();
         }
 
-        if(eventDto.getLunch_image_file() == null){
-            if(lunch_image_filename != null) {
-                fileUploadService.deleteFile(lunch_image_filename);
-                lunch_image_url = null;
-                lunch_image_filename = null;
+        if(eventDto.getLunch_image_file() != null){
+            if(lunch_image_filename != null){
+                //기존 DB 이미지와 새로 받은 이미지가 다를 경우
+                if(!lunch_image_filename.equals(eventDto.getLunch_image_file().getOriginalFilename())){
+                    //기존 이미지 제거
+                    fileUploadService.deleteFile(lunch_image_filename);
+                    //버킷에 파일 저장 후 url저장
+                    lunch_image_url = fileUploadService.uploadFile(eventDto.getLunch_image_file());
+                    //원본 파일 이름 저장
+                    lunch_image_filename = eventDto.getLunch_image_file().getOriginalFilename();
+                }
             }
-        } else{
-            lunch_image_url = fileUploadService.uploadFile(eventDto.getLunch_image_file());
-            lunch_image_filename = eventDto.getLunch_image_file().getOriginalFilename();
         }
 
-        if(eventDto.getDinner_image_file() == null){
-            if(dinner_image_filename != null) {
-                fileUploadService.deleteFile(dinner_image_filename);
-                dinner_image_url = null;
-                dinner_image_filename = null;
+        if(eventDto.getDinner_image_file() != null){
+            if(dinner_image_filename != null){
+                //기존 DB 이미지와 새로 받은 이미지가 다를 경우
+                if(!dinner_image_filename.equals(eventDto.getDinner_image_file().getOriginalFilename())){
+                    //기존 이미지 제거
+                    fileUploadService.deleteFile(dinner_image_filename);
+                    //버킷에 파일 저장 후 url저장
+                    dinner_image_url = fileUploadService.uploadFile(eventDto.getDinner_image_file());
+                    //원본 파일 이름 저장
+                    dinner_image_filename = eventDto.getDinner_image_file().getOriginalFilename();
+                }
             }
-        } else{
-            dinner_image_url = fileUploadService.uploadFile(eventDto.getDinner_image_file());
-            dinner_image_filename = eventDto.getDinner_image_file().getOriginalFilename();
-
         }
 
         //event 수정
@@ -257,4 +274,59 @@ public class EventService {
         eventRepository.deleteById(event_id);
     }
 
+    //delete image
+    public void deleteEventImage(int event_id, String image, HttpServletRequest request){
+        //token값을 통해 memberId 가져오기
+        String token = jwtUtils.getJwtFromHeader(request);
+        Claims claims = jwtUtils.getUserInfoFromToken(token);
+        String memberId = claims.getSubject();
+
+        //memberId로 user정보 가져오기
+        User user = userRepository.findByMemberId(memberId).orElse(null);
+        if (user == null) {
+            throw new UserNotFoundException("사용자가 존재하지 않습니다.");
+        }
+
+        //event id값으로 event정보 가져오기
+        Event event = eventRepository.findById(event_id).orElse(null);
+        if(event == null){
+            throw new NotFoundException("해당하는 event정보가 존재하지 않습니다.");
+        }
+
+        //토큰인증된 유저와 event작성자가 일치하는지 판별
+        if(event.getUser() != user){
+            throw new UnauthorizedException("사용자가 일치하지 않습니다.");
+        }
+
+        String morning_image_filename = event.getMorning_image_filename();
+        String lunch_image_filename = event.getLunch_image_filename();
+        String dinner_image_filename = event.getDinner_image_filename();
+
+        switch (image) {
+            case "morningImage" -> {
+                //DB에 사진이 저장되어 있을 경우 버킷에서 삭제
+                if (morning_image_filename != null) {
+                    fileUploadService.deleteFile(morning_image_filename);
+                    event.setMorning_image_filename(null);
+                    event.setMorning_image_url(null);
+                }
+            }
+            case "lunchImage" -> {
+                if (lunch_image_filename != null) {
+                    fileUploadService.deleteFile(lunch_image_filename);
+                    event.setLunch_image_filename(null);
+                    event.setLunch_image_url(null);
+                }
+            }
+            case "dinnerImage" -> {
+                if (dinner_image_filename != null) {
+                    fileUploadService.deleteFile(dinner_image_filename);
+                    event.setDinner_image_filename(null);
+                    event.setDinner_image_url(null);
+                }
+            }
+        }
+
+        eventRepository.save(event);
+    }
 }

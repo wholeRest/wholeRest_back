@@ -17,14 +17,6 @@ public class CautionService {
     private final CautionRepository cautionRepository;
     private final EventRepository eventRepository;
 
-    //get All
-    public List<CautionDto> getAllCaution(){
-        List<Caution> cautions = cautionRepository.findAll();
-        return cautions.stream()
-                .map(CautionDto::from)
-                .collect(Collectors.toList());
-    }
-
     //get caution by eventId
     public List<CautionDto> getCautionByEventId(int event_id){
         Event event = eventRepository.findById(event_id).orElse(null);
@@ -35,8 +27,8 @@ public class CautionService {
     }
 
     //create caution
-    public void createCaution(CautionDto cautionDto){
-        Event event = eventRepository.findById(cautionDto.getEvent_id()).orElse(null);
+    public void createCaution(int eventId, CautionDto cautionDto){
+        Event event = eventRepository.findById(eventId).orElse(null);
         if (event == null)
             return;
 

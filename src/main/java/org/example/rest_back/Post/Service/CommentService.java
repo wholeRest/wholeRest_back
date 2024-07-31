@@ -7,8 +7,13 @@ import org.example.rest_back.Post.Domain.Post;
 import org.example.rest_back.Post.Dto.CommentDto;
 import org.example.rest_back.Post.Repository.CommentRepository;
 import org.example.rest_back.config.jwt.JwtUtils;
+<<<<<<< HEAD
+import org.example.rest_back.exception.UserNotFoundException;
+import org.example.rest_back.user.domain.User;
+=======
 import org.example.rest_back.user.domain.User;
 import org.example.rest_back.exception.UserNotFoundException;
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 import org.example.rest_back.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

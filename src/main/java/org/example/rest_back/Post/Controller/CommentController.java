@@ -9,6 +9,7 @@ import org.example.rest_back.Post.Service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,11 @@ public class CommentController {
     // Create, 댓글 생성
     // 유저 아이디 확인하는 로직 작성해야 함
     @PostMapping({"/posts/{post_id}"})
+<<<<<<< HEAD
+    public ResponseEntity<CommentDto> registerComment(@PathVariable(name = "post_id")Long post_id, @RequestParam(name = "content") String content, HttpServletRequest request){
+=======
     public ResponseEntity<CommentDto> registerComment(@PathVariable(name = "post_id")Long post_id, @ModelAttribute String content, HttpServletRequest request){
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
         Optional<Post> postOptional = postRepository.findById(post_id);
         if (postOptional.isPresent()){
             Comment comment = commentService.registerComment(post_id, content, request);
