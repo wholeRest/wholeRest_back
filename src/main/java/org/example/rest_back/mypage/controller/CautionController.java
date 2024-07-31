@@ -15,13 +15,6 @@ import java.util.List;
 public class CautionController {
     private final CautionService cautionService;
 
-    //get All
-    @GetMapping
-    public ResponseEntity<List<CautionDto>> getAllCautions(){
-        List<CautionDto> cautions = cautionService.getAllCaution();
-        return ResponseEntity.ok(cautions);
-    }
-
     //get caution by eventId
     @GetMapping("/{eventId}")
     public ResponseEntity<List<CautionDto>> getCautionByEventId(@PathVariable int eventId){
@@ -30,9 +23,9 @@ public class CautionController {
     }
 
     //create caution
-    @PostMapping
-    public ResponseEntity<Void> createCaution(@RequestBody CautionDto cautionDto){
-        cautionService.createCaution(cautionDto);
+    @PostMapping("/{eventId}")
+    public ResponseEntity<Void> createCaution(@PathVariable int eventId, @RequestBody CautionDto cautionDto){
+        cautionService.createCaution(eventId, cautionDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
