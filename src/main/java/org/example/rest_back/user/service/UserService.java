@@ -65,11 +65,11 @@ public class UserService {
         String password = loginDto.getPassword();
 
         User user = userRepository.findByMemberId(userId)
-                .orElseThrow(() -> new UserNotFoundException("존재하지 않는 아이디입니다."));
+                .orElseThrow(() -> new UserNotFoundException("아이디 혹은 비밀번호가 일치하지 않습니다."));
 
         // 비밀번호 일치 여부 확인
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new InvalidPasswordException("비밀번호가 일치하지 않습니다.");
+            throw new InvalidPasswordException("아이디 혹은 비밀번호가 일치하지 않습니다.");
         }
 
         // JWT 토큰 생성 및 응답 헤더에 추가

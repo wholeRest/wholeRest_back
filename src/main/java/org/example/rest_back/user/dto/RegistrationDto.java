@@ -18,10 +18,10 @@ public class RegistrationDto {
     @NotBlank(message = "이름은 필드에 값이 존재하지 않거나 공백이 포함되어 있습니다.")
     private String name;
 
-    @NotBlank(message = "닉네임 필드에 값이 존재하지 않거나 공백이 포함되어 있습니다..")
+    @NotBlank(message = "닉네임 필드에 값이 존재하지 않거나 공백이 포함되어 있습니다.")
     private String nickName;
 
-    @NotBlank(message = "이메일 필드에 값이 존재하지 않거나 공백이 포함되어 있습니다..")
+    @NotBlank(message = "이메일 필드에 값이 존재하지 않거나 공백이 포함되어 있습니다.")
     private String email;
 
     @NotBlank(message = "핸드폰 번호 필드에 값이 존재하지 않거나 공백이 포함되어 있습니다.")
