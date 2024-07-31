@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.rest_back.user.domain.User;
 
 @Entity
 @Getter
@@ -29,7 +30,7 @@ public class Likes {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
-    private Users users;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

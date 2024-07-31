@@ -1,4 +1,4 @@
-package org.example.rest_back.mypage.exception;
+package org.example.rest_back.exception;
 
 public enum ErrorCode {
     EMPTY_FILE_EXCEPTION("File is empty or filename is null."),

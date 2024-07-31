@@ -3,8 +3,12 @@ package org.example.rest_back.Post.Domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.example.rest_back.Post.Dto.PostDto;
+import org.example.rest_back.user.domain.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -35,11 +39,11 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
 
-     //유저아이디값을 외래키로 가짐 (String)
+     //유저아이디값을 외래키로 가짐 (Id)
      @ManyToOne
      @JsonBackReference
      @JoinColumn(name = "user_id")
-     private Users users;
+     private User user;
 
     // 게시물 제목
     private String title;

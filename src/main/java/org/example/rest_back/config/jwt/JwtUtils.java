@@ -1,4 +1,4 @@
-package org.example.rest_back.user.config.jwt;
+package org.example.rest_back.config.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -41,19 +41,23 @@ public class JwtUtils {
         // User 객체를 통해 JWT 토큰 생성
         Date now = new Date();
 
+        // User 객체로 변환
+        User user = (User) userDetails;
+
         return Jwts.builder()
                 .setSubject(userDetails.getUsername()) // 사용자 ID를 주제로 설정
-                .claim("email", ((User)userDetails).getEmail()) // 이메일을 클레임으로 추가
-                .setExpiration(new Date(now.getTime() + TOKEN_EXPIRATION_TIME))
-                .setIssuedAt(now)
-                .signWith(key, SIGNATURE_ALGORITHM)
-                .compact();
+                .claim("email", user.getEmail()) // 이메일을 클레임으로 추가
+                .claim("user_id", user.getUser_id()) // user_id를 클레임으로 추가 ( 사용자 일련번호 )
+                .setExpiration(new Date(now.getTime() + TOKEN_EXPIRATION_TIME)) // 토큰 만료 시간 설정
+                .setIssuedAt(now) // 토큰 발급 시간 설정
+                .signWith(key, SIGNATURE_ALGORITHM) // 서명 설정
+                .compact(); // JWT 생성
     }
 
     public String getJwtFromHeader(HttpServletRequest request) {
         // HTTP 요청에서 JWT 추출
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-
+        // 토큰은 Authorization 헤더에 포함되어있음.
         if (bearerToken != null && bearerToken.startsWith(BEARER_PREFIX)) {
             // Bearer 접두어로 시작하는지 확인하고
             return bearerToken.substring(BEARER_PREFIX.length()); // 접두어를 제거한 후 반환
@@ -80,17 +84,19 @@ public class JwtUtils {
     }
 
     public Claims getUserInfoFromToken(String token) {
-        // JWT에서 사용자 정보를 추출
+        // Jwt 의 페이로드를 return 하는 형태
+        // ( 페이로드 : 토큰에서 사용할 정보의 조각들 Claim )
+        // 여기서 메소드의 반환형은 Claims. 여기서 Claims 은 토큰을 만들때의 claim 값만 지칭하는것이 아님 !
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
     public Authentication getAuthentication(String token, UserDetailService userDetailService) {
         // 토큰 기반으로 인증 정보 가져오기
         Claims claims = getUserInfoFromToken(token);
-        String userId = claims.getSubject();
+        String memberId = claims.getSubject();
 
         // UserDetailsService를 통해 UserDetails 객체를 가져와서
-        UserDetails userDetails = userDetailService.loadUserByUsername(userId);
+        UserDetails userDetails = userDetailService.loadUserByUsername(memberId);
 
         // 인증된 사용자 반환.
         return new UsernamePasswordAuthenticationToken(

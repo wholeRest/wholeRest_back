@@ -4,7 +4,6 @@ package org.example.rest_back.mypage.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.rest_back.mypage.entity.Event;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -14,7 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EventDto {
     private int event_id;
-    private String member_id;
     private LocalDate date;
     private Integer emoji = 0;
     private String today_feel;

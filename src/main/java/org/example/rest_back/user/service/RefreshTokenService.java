@@ -2,7 +2,7 @@ package org.example.rest_back.user.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.example.rest_back.user.config.jwt.JwtUtils;
+import org.example.rest_back.config.jwt.JwtUtils;
 import org.example.rest_back.user.domain.RefreshToken;
 import org.example.rest_back.user.repository.RefreshTokenRepository;
 import org.springframework.stereotype.Service;
