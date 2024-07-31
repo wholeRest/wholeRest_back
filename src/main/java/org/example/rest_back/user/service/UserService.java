@@ -3,10 +3,17 @@ package org.example.rest_back.user.service;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.rest_back.config.jwt.JwtUtils;
+<<<<<<< HEAD
+import org.example.rest_back.exception.InvalidPasswordException;
+import org.example.rest_back.exception.UserAlreadyExistsException;
+import org.example.rest_back.exception.UserNotFoundException;
+import org.example.rest_back.user.domain.User;
+=======
 import org.example.rest_back.user.domain.User;
 import org.example.rest_back.exception.InvalidPasswordException;
 import org.example.rest_back.exception.UserAlreadyExistsException;
 import org.example.rest_back.exception.UserNotFoundException;
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 import org.example.rest_back.user.dto.IdDuplicationDto;
 import org.example.rest_back.user.dto.LoginDto;
 import org.example.rest_back.user.dto.RegistrationDto;
@@ -66,7 +73,11 @@ public class UserService {
         String password = loginDto.getPassword();
 
         User user = userRepository.findByMemberId(userId)
+<<<<<<< HEAD
+                .orElseThrow(() -> new UserNotFoundException("존재하지 않는 아이디입니다."));
+=======
                 .orElseThrow(() -> new UserNotFoundException("아이디 혹은 비밀번호가 일치하지 않습니다."));
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 
         // 비밀번호 일치 여부 확인
         if (!passwordEncoder.matches(password, user.getPassword())) {

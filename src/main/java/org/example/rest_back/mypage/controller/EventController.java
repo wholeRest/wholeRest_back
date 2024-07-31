@@ -51,6 +51,8 @@ public class EventController {
     @DeleteMapping("/{eventId}")
     public ResponseEntity<Void> deleteEvent(@PathVariable int eventId, HttpServletRequest request){
         eventService.deleteEvent(eventId, request);
+<<<<<<< HEAD
+=======
         return ResponseEntity.ok().build();
     }
 
@@ -58,6 +60,7 @@ public class EventController {
     @DeleteMapping("/image/{eventId}")
     public ResponseEntity<Void> deleteEventImage(@PathVariable int eventId, @RequestParam String image, HttpServletRequest request){
         eventService.deleteEventImage(eventId, image, request);
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
         return ResponseEntity.ok().build();
     }
 }

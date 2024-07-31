@@ -4,6 +4,16 @@ import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.example.rest_back.config.jwt.JwtUtils;
+<<<<<<< HEAD
+import org.example.rest_back.exception.NotFoundException;
+import org.example.rest_back.exception.UnauthorizedException;
+import org.example.rest_back.exception.UserNotFoundException;
+import org.example.rest_back.mypage.dto.EventDto;
+import org.example.rest_back.mypage.dto.EventResponseDto;
+import org.example.rest_back.mypage.entity.Event;
+import org.example.rest_back.mypage.repository.EventRepository;
+import org.example.rest_back.user.domain.User;
+=======
 import org.example.rest_back.mypage.dto.EventDto;
 import org.example.rest_back.mypage.dto.EventResponseDto;
 import org.example.rest_back.mypage.entity.Event;
@@ -12,6 +22,7 @@ import org.example.rest_back.exception.UnauthorizedException;
 import org.example.rest_back.mypage.repository.EventRepository;
 import org.example.rest_back.user.domain.User;
 import org.example.rest_back.exception.UserNotFoundException;
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 import org.example.rest_back.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
