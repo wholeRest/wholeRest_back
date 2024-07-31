@@ -33,6 +33,7 @@ public class UserService {
         String nickname = requestDto.getNickName();
         String email = requestDto.getEmail();
         String phoneNumber = requestDto.getPhoneNumber();
+        String dateOfBirth = requestDto.getDateOfBirth();
 
         // 아이디 중복 검사를 하지 않고 바로 폼 제출을 누르는 케이스가 존재할수도 있기에
         // 중복 체크 로직을 회원가입에서도 재확인용으로 한번 더 추가.
@@ -45,7 +46,7 @@ public class UserService {
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(password);
 
-        User user = new User(userId, encodedPassword, name, nickname, email, phoneNumber);
+        User user = new User(userId, encodedPassword, name, nickname, email, phoneNumber, dateOfBirth);
         userRepository.save(user);
     }
 

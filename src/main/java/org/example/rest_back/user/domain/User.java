@@ -47,6 +47,9 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     private String phoneNumber;
 
+    @Column(nullable = false)
+    private String dateOfBirth;
+
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "user")
@@ -103,12 +106,14 @@ public class User implements UserDetails {
         return true;
     }
 
-    public User(String memberId, String password, String name, String nickName, String email, String phoneNumber) {
+    public User(String memberId, String password, String name, String nickName, String email, String phoneNumber,
+    String dateOfBirth) {
         this.memberId = memberId;
         this.password = password;
         this.name = name;
         this.nickName = nickName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
     }
 }
