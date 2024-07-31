@@ -1,12 +1,17 @@
 package org.example.rest_back.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.rest_back.Post.Domain.Comment;
+import org.example.rest_back.Post.Domain.Likes;
+import org.example.rest_back.Post.Domain.Post;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,6 +48,18 @@ public class User implements UserDetails {
     private String phoneNumber;
 
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Likes> likes = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {

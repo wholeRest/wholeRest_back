@@ -2,7 +2,7 @@ package org.example.rest_back.Post.Dto;
 
 import lombok.*;
 import org.example.rest_back.Post.Domain.Post;
-import org.example.rest_back.Post.Domain.Users;
+import org.example.rest_back.user.domain.User;
 
 import java.time.LocalDateTime;
 
@@ -28,5 +28,5 @@ public class CommentDto {
     private Post post;
     private Long post_id;
     private Long user_id;
-    private Users users;
+    private User user;
 }

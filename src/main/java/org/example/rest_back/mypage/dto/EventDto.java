@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EventDto {
     private int event_id;
-    private String member_id;
+//    private String member_id;
     private LocalDate date;
     private Integer emoji = 0;
     private String today_feel;

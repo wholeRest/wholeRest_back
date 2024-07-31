@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.rest_back.Post.Dto.PostDto;
+import org.example.rest_back.user.domain.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -39,7 +40,7 @@ public class Post {
      @ManyToOne
      @JsonBackReference
      @JoinColumn(name = "user_id")
-     private Users users;
+     private User user;
 
     // 게시물 제목
     private String title;
