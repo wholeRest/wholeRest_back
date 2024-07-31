@@ -4,14 +4,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.rest_back.config.jwt.JwtUtils;
 import org.example.rest_back.user.domain.User;
-import org.example.rest_back.user.domain.exception.InvalidPasswordException;
-import org.example.rest_back.user.domain.exception.UserAlreadyExistsException;
-import org.example.rest_back.user.domain.exception.UserNotFoundException;
+import org.example.rest_back.exception.InvalidPasswordException;
+import org.example.rest_back.exception.UserAlreadyExistsException;
+import org.example.rest_back.exception.UserNotFoundException;
 import org.example.rest_back.user.dto.IdDuplicationDto;
 import org.example.rest_back.user.dto.LoginDto;
 import org.example.rest_back.user.dto.RegistrationDto;
 import org.example.rest_back.user.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
