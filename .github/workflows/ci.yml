@@ -1,66 +1,62 @@
-name: Java CI with Gradle
+name: Java CI with Gradle	#워크플로 이름
 
-permissions:
-  checks: write
-  pull-requests: write
-
-on:
+on:	#워크플로를 실행할 트리거 이벤트를 정의
   push:
-    branches: [ "main" ]
+    branches: [ "main" ]	#main브랜치에 코드가 푸시될 때 워크플로를 실행
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" ]	#main브랜치에 대한 풀 리퀘스트가 생성될 때 워크플로를 실행
 
-jobs:
+
+jobs:	#실행할 작업들을 정의
   build:
-    runs-on: ubuntu-latest # (3) OS환경
+    runs-on: ubuntu-latest	#이 작업이 실행될 환경을 지정(최신 ubuntu버전)
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4 # (4) 코드 check out : 스프링부트 프로젝트의 소스코드를 내려받는다
+    steps:	#각 단계들을 정의
+      - name: Checkout	#단계의 이름
+        uses: actions/checkout@v4
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: 21 # (5) 자바 설치
+          java-version: 21	#사용할 자바 버전을 21로 설정
           distribution: adopt-hotspot
 
       - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
+          #캐시할 경로를 지정
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
+
+          #캐시 키를 설정
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+          #캐시 복원 시 사용할 키를 설정
           restore-keys: |
             ${{ runner.os }}-gradle-
 
       - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
-        shell: bash # (6) 권한 부여
+        run: chmod +x ./gradlew	#gradlew파일에 실행 권한 부여
+        shell: bash	#명령어를 실행할 셸을 지정
 
       - name: Build with Gradle
-        run: ./gradlew clean bootjar -Pprofile=prod
-        shell: bash # (8) build 시작
-
-      - name: Get current time
-        uses: 1466587594/get-current-time@v2
-        id: current-time
-        with:
-          format: YYYY-MM-DDTHH-mm-ss
-          utcOffset: "+09:00" # (9) build 시점의 시간확보
-
-      - name: Show Current Time
-        run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
-        shell: bash # (10) 확보한 시간 보여주기
+        run: ./gradlew clean bootjar -Pprofile=prod	#gradle을 사용하여 프로젝트를 빌드
+        shell: bash
 
       - name: Generate deployment package
+        #deploy디렉터리 생성
+        #Procfile을 deploy디렉터리로 복사
+        #.ebextensions디렉터리를 deploy디렉터리로 복사
+        #.platform디렉터리를 deploy디렉터리로 복사
+        #deploy로 이동하여 모든 파일을 deploy.zip으로 압축
         run: |
-          mkdir -p deploy
-          cp build/libs/*.jar deploy/application.jar
-          cp Procfile deploy/Procfile
-          cp -r .ebextensions deploy/.ebextensions
-          cp -r .platform deploy/.platform
-          cd deploy && zip -r deploy.zip .
+          mkdir -p deploy	
+          cp build/libs/*.jar deploy/application.jar	
+          cp Procfile deploy/Procfile	
+          cp -r .ebextensions deploy/.ebextensions	
+          cp -r .platform deploy/.platform	
+          cd deploy && zip -r deploy.zip .	
 
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@v20
@@ -69,13 +65,15 @@ jobs:
           aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
           application_name: rest-Elastic-Beanstalk
           environment_name: Rest-elastic-beanstalk-env
-          version_label: github-action-${{steps.current-time.outputs.formattedTime}}
+          version_label: github-action-${{github.run_id}}	#GitHub Actions의 샐행 ID를 사용하여 고유한 레이블을 만듦
           region: ap-northeast-2
-          deployment_package: deploy/deploy.zip
-          wait_for_environment_recovery: 60
+          deployment_package: deploy/deploy.zip	#배포할 패키지 파일
+          wait_for_environment_recovery: 60	#환경 복구를 기다릴 시간(60초)
 
       - name: Cleanup Gradle Cache
-        if: ${{ always() }}
+        if: ${{ always() }}	#이전 단계의 성공 여부와 관계없이 항상 실행
+
+        #Gradle 캐시를 정리
         run: |
           rm -f ~/.gradle/caches/modules-2/modules-2.lock
           rm -f ~/.gradle/caches/modules-2/gc.properties

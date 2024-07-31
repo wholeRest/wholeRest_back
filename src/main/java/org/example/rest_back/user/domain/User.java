@@ -2,9 +2,13 @@ package org.example.rest_back.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+<<<<<<< HEAD
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+=======
+import lombok.*;
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 import org.example.rest_back.Post.Domain.Comment;
 import org.example.rest_back.Post.Domain.Likes;
 import org.example.rest_back.Post.Domain.Post;
@@ -48,6 +52,9 @@ public class User implements UserDetails {
 
     @Column(unique = true, nullable = false)
     private String phoneNumber;
+
+    @Column(nullable = false)
+    private String dateOfBirth;
 
     private LocalDateTime createdAt;
 
@@ -105,12 +112,18 @@ public class User implements UserDetails {
         return true;
     }
 
+<<<<<<< HEAD
     public User(String memberId, String password, String name, String nickName, String email, String phoneNumber) {
+=======
+    public User(String memberId, String password, String name, String nickName, String email, String phoneNumber,
+    String dateOfBirth) {
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
         this.memberId = memberId;
         this.password = password;
         this.name = name;
         this.nickName = nickName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
     }
 }

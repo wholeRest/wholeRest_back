@@ -17,14 +17,6 @@ public class CheckupService {
     private final CheckupRepository checkupRepository;
     private final EventRepository eventRepository;
 
-    //get All
-    public List<CheckupDto> getAllCheckup(){
-        List<Checkup> checkups = checkupRepository.findAll();
-        return checkups.stream()
-                .map(CheckupDto::from)
-                .collect(Collectors.toList());
-    }
-
     //get checkup by eventId
     public List<CheckupDto> getCheckupByEventId(int event_id){
         Event event = eventRepository.findById(event_id).orElse(null);
@@ -35,8 +27,8 @@ public class CheckupService {
     }
 
     //create checkup
-    public void createCheckup(CheckupDto checkupDto){
-        Event event = eventRepository.findById(checkupDto.getEvent_id()).orElse(null);
+    public void createCheckup(int eventId, CheckupDto checkupDto){
+        Event event = eventRepository.findById(eventId).orElse(null);
         if (event == null)
             return;
 

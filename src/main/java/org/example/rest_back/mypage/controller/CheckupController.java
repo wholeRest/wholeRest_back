@@ -15,13 +15,6 @@ import java.util.List;
 public class CheckupController {
     private final CheckupService checkupService;
 
-    //get All
-    @GetMapping
-    public ResponseEntity<List<CheckupDto>> getAllCheckups(){
-        List<CheckupDto> checkups = checkupService.getAllCheckup();
-        return ResponseEntity.ok(checkups);
-    }
-
     //get checkup by eventId
     @GetMapping("/{eventId}")
     public ResponseEntity<List<CheckupDto>> getCheckupByEventId(@PathVariable int eventId){
@@ -30,9 +23,9 @@ public class CheckupController {
     }
 
     //create checkup
-    @PostMapping
-    public ResponseEntity<Void> createCheckup(@RequestBody CheckupDto checkupDto){
-        checkupService.createCheckup(checkupDto);
+    @PostMapping("/{eventId}")
+    public ResponseEntity<Void> createCheckup(@PathVariable int eventId, @RequestBody CheckupDto checkupDto){
+        checkupService.createCheckup(eventId, checkupDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

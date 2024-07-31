@@ -15,13 +15,6 @@ import java.util.List;
 public class MedicineController {
     private final MedicineService medicineService;
 
-    //get All
-    @GetMapping
-    public ResponseEntity<List<MedicineDto>> getAllMedicines(){
-        List<MedicineDto> medicines = medicineService.getAllMedicine();
-        return ResponseEntity.ok(medicines);
-    }
-
     //get medicine by eventId
     @GetMapping("/{eventId}")
     public ResponseEntity<List<MedicineDto>> getMedicineByEventId(@PathVariable int eventId){
@@ -30,9 +23,9 @@ public class MedicineController {
     }
 
     //create medicine
-    @PostMapping
-    public ResponseEntity<Void> createMedicine(@RequestBody MedicineDto medicineDto){
-        medicineService.createMedicine(medicineDto);
+    @PostMapping("/{eventId}")
+    public ResponseEntity<Void> createMedicine(@PathVariable int eventId, @RequestBody MedicineDto medicineDto){
+        medicineService.createMedicine(eventId, medicineDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

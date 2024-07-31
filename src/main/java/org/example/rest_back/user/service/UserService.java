@@ -3,10 +3,17 @@ package org.example.rest_back.user.service;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.rest_back.config.jwt.JwtUtils;
+<<<<<<< HEAD
 import org.example.rest_back.exception.InvalidPasswordException;
 import org.example.rest_back.exception.UserAlreadyExistsException;
 import org.example.rest_back.exception.UserNotFoundException;
 import org.example.rest_back.user.domain.User;
+=======
+import org.example.rest_back.user.domain.User;
+import org.example.rest_back.exception.InvalidPasswordException;
+import org.example.rest_back.exception.UserAlreadyExistsException;
+import org.example.rest_back.exception.UserNotFoundException;
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 import org.example.rest_back.user.dto.IdDuplicationDto;
 import org.example.rest_back.user.dto.LoginDto;
 import org.example.rest_back.user.dto.RegistrationDto;
@@ -33,6 +40,7 @@ public class UserService {
         String nickname = requestDto.getNickName();
         String email = requestDto.getEmail();
         String phoneNumber = requestDto.getPhoneNumber();
+        String dateOfBirth = requestDto.getDateOfBirth();
 
         // 아이디 중복 검사를 하지 않고 바로 폼 제출을 누르는 케이스가 존재할수도 있기에
         // 중복 체크 로직을 회원가입에서도 재확인용으로 한번 더 추가.
@@ -45,7 +53,7 @@ public class UserService {
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(password);
 
-        User user = new User(userId, encodedPassword, name, nickname, email, phoneNumber);
+        User user = new User(userId, encodedPassword, name, nickname, email, phoneNumber, dateOfBirth);
         userRepository.save(user);
     }
 
@@ -65,11 +73,15 @@ public class UserService {
         String password = loginDto.getPassword();
 
         User user = userRepository.findByMemberId(userId)
+<<<<<<< HEAD
                 .orElseThrow(() -> new UserNotFoundException("존재하지 않는 아이디입니다."));
+=======
+                .orElseThrow(() -> new UserNotFoundException("아이디 혹은 비밀번호가 일치하지 않습니다."));
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 
         // 비밀번호 일치 여부 확인
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new InvalidPasswordException("비밀번호가 일치하지 않습니다.");
+            throw new InvalidPasswordException("아이디 혹은 비밀번호가 일치하지 않습니다.");
         }
 
         // JWT 토큰 생성 및 응답 헤더에 추가

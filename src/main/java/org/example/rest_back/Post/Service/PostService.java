@@ -7,8 +7,13 @@ import org.example.rest_back.Post.Domain.Post;
 import org.example.rest_back.Post.Dto.PostDto;
 import org.example.rest_back.Post.Repository.PostRepository;
 import org.example.rest_back.config.jwt.JwtUtils;
+<<<<<<< HEAD
 import org.example.rest_back.exception.UserNotFoundException;
 import org.example.rest_back.user.domain.User;
+=======
+import org.example.rest_back.user.domain.User;
+import org.example.rest_back.exception.UserNotFoundException;
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 import org.example.rest_back.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +55,7 @@ public class PostService {
             throw new UserNotFoundException("사용자가 존재하지 않습니다.");
         }
 
+<<<<<<< HEAD
 //        Post post = Post.builder()
 //                .title(postDto.getTitle())
 //                .content(postDto.getContent())
@@ -58,13 +64,23 @@ public class PostService {
 //                .user(user)
 //                .build();
         Post post = convertToEntity(postDto, user);
+=======
+        Post post = Post.builder()
+                .title(postDto.getTitle())
+                .content(postDto.getContent())
+                .imgURLs(postDto.getImgURLs())
+                .build();
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 
         return postRepository.save(post);
     }
 
     // Read All, 모든 게시물 조회
     public List<Post> getAllPosts(HttpServletRequest request) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
         // token 값을 통해 memberId (Stirng) 가져오기
         String token = jwtUtils.getJwtFromHeader(request);
         Claims claims = jwtUtils.getUserInfoFromToken(token);
@@ -197,6 +213,10 @@ public class PostService {
                         .likes_count(post.getLikes_count())
                         .views(post.getViews())
                         .imgURLs(imgUrls)
+<<<<<<< HEAD
+=======
+                        .user(post.getUser())
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
                         .build();
 
                 postRepository.save(newPost);
@@ -217,6 +237,10 @@ public class PostService {
                 .likes_count(post.getLikes_count())
                 .post_Create_Time(post.getPost_Create_Time())
                 .post_Update_Time(post.getPost_Update_Time())
+<<<<<<< HEAD
+=======
+                .user_id(post.getUser().getUser_id())
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
                 .imgURLs(post.getImgURLs())
                 .build();
     }
@@ -231,6 +255,12 @@ public class PostService {
                 .views(postDto.getViews())
                 .category(postDto.getCategory())
                 .likes_count(postDto.getLikes_count())
+<<<<<<< HEAD
+=======
+                .post_Create_Time(postDto.getPost_Create_Time())
+                .post_Update_Time(postDto.getPost_Update_Time())
+                .user(postDto.getUser())
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
                 .imgURLs(postDto.getImgURLs())
                 .user(user)
                 .build();

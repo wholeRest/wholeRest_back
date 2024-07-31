@@ -1,6 +1,10 @@
 package org.example.rest_back.Post.Dto;
 
 import lombok.*;
+<<<<<<< HEAD
+=======
+import org.example.rest_back.user.domain.User;
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +31,11 @@ public class PostDto {
     private String category;
     private LocalDateTime post_Create_Time;
     private LocalDateTime post_Update_Time;
+<<<<<<< HEAD
+=======
+    private Long user_id;
+    private User user;
+>>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
     private int likes_count;
     private List<String> imgURLs;
 }
