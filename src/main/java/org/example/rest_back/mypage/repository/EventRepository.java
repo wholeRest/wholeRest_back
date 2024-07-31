@@ -1,7 +1,6 @@
 package org.example.rest_back.mypage.repository;
 
 import org.example.rest_back.mypage.entity.Event;
-import org.example.rest_back.mypage.entity.Member;
 import org.example.rest_back.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
