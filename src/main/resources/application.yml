@@ -1,3 +1,14 @@
+#swagger
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+swagger-ui:
+  enabled: true
+  path: /swagger-ui.html
+  paths-to-match:
+    - /api/**
+
 ##database
 #spring:
   datasource:
@@ -12,11 +23,6 @@
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-
-  servlet:
-    multipart:
-      maxFileSize: 20MB
-      maxRequestSize: 100MB
 
 #S3
 cloud:
