@@ -12,12 +12,12 @@ public class UserDetailService implements UserDetailsService{
 
     private final UserRepository userRepository;
 
-    //고유값 - 사용자이름 / username - (userId) 을 통해, 사용자 정보를 가져오는 메소드
-    //User 도메인 객체에서, 식별하기 위한 고유 값으로 userId 를 리턴하게 되어있음 (getUsername)
+    //고유값 - 사용자이름 / username - (memberId) 을 통해, 사용자 정보를 가져오는 메소드
+    //User 도메인 객체에서, 식별하기 위한 고유 값으로 memberId 를 리턴하게 되어있음 (getUsername)
     //일관성을 위해 동일하게 설정
-    public User loadUserByUsername(String userId) throws UsernameNotFoundException {
-        return userRepository.findByUserId(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + userId));
+    public User loadUserByUsername(String memberId) throws UsernameNotFoundException {
+        return userRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + memberId));
     }
 }
 

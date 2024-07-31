@@ -1,4 +1,4 @@
-package org.example.rest_back.mypage.exception;
+package org.example.rest_back.exception;
 
 public class NotFoundException extends RuntimeException{
     public NotFoundException(String message){

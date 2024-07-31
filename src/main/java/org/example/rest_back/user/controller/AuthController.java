@@ -1,15 +1,15 @@
 package org.example.rest_back.user.controller;
 
-import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.rest_back.config.jwt.JwtUtils;
-import org.example.rest_back.user.domain.exception.UserAlreadyExistsException;
+import org.example.rest_back.exception.UserAlreadyExistsException;
 import org.example.rest_back.user.dto.*;
 import org.example.rest_back.user.service.RefreshTokenService;
 import org.example.rest_back.user.service.UserDetailService;
 import org.example.rest_back.user.service.UserService;
 import org.example.rest_back.user.service.VerificationService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -64,6 +64,7 @@ public class AuthController {
     // 로그인 API
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDto> login(@RequestBody @Valid LoginDto loginDto) {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getUserId(),
@@ -75,8 +76,16 @@ public class AuthController {
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
+        // access Token 과 Refresh Token 을 생성하고
         String jwt = jwtUtils.createToken(userDetails);
         String refreshToken = refreshTokenService.createRefreshToken(userDetails.getUsername());
+        HttpHeaders headers = new HttpHeaders();
+        // HttpHeaders 객체를 생성하고
+        headers.set(jwtUtils.AUTHORIZATION_HEADER, jwtUtils.BEARER_PREFIX + jwt);
+        // "Authorization": "Bearer <토큰>" 형식으로 헤더를 추가
+        // Authorization_header : Authorization ( JWT 토큰을 담기 위한 표준 헤더 양식 )
+        // Bearer_prefix : bearer ( 토큰 유형 명시 접두사 ) -> 즉 토큰을 응답 헤더에 포함시킴.
+
         return ResponseEntity.ok(new JwtResponseDto("로그인에 성공하였습니다.", HttpStatus.OK.value(),jwt,refreshToken));
     }
 
