@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @Setter
 public class CautionDto {
     private int caution_id;
-    private int event_id;
     private String content;
     private Boolean completed;
     private LocalDate create_time;
@@ -22,7 +21,6 @@ public class CautionDto {
     public static CautionDto from(Caution caution){
         CautionDto dto = new CautionDto();
         dto.setCaution_id(caution.getCaution_id());
-        dto.setEvent_id(caution.getEvent().getEvent_id());
         dto.setContent(caution.getContent());
         dto.setCompleted(caution.getCompleted());
         dto.setCreate_time(caution.getCreate_time());

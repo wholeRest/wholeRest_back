@@ -1,4 +1,5 @@
-package org.example.rest_back.user.dto;
+package
+org.example.rest_back.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
