@@ -5,11 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.rest_back.user.domain.User;
-<<<<<<< HEAD
-=======
-import org.hibernate.annotations.CreationTimestamp;
->>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
-
 import java.time.LocalDate;
 
 @Getter

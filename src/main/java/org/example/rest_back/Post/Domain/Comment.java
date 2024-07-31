@@ -7,10 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.rest_back.Post.Dto.CommentDto;
-<<<<<<< HEAD
-=======
-import org.example.rest_back.Post.Dto.PostDto;
->>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 import org.example.rest_back.user.domain.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

@@ -5,13 +5,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.rest_back.Post.Service.ImageService;
 import org.example.rest_back.Post.Service.PostService;
 import org.example.rest_back.config.jwt.JwtUtils;
-<<<<<<< HEAD
-import org.example.rest_back.exception.UserNotFoundException;
-import org.example.rest_back.user.domain.User;
-=======
 import org.example.rest_back.user.domain.User;
 import org.example.rest_back.exception.UserNotFoundException;
->>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 import org.example.rest_back.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,11 +34,7 @@ public class ImageController {
 
     // 이미지 업로드, S3 URL 반환
     @PostMapping("/upload")
-<<<<<<< HEAD
     public ResponseEntity<List<String>> uploadImages(@RequestParam("images") List<MultipartFile> multipartFiles, HttpServletRequest request) throws IOException {
-=======
-    public ResponseEntity<String> uploadImages(@RequestParam("image") MultipartFile multipartFile, HttpServletRequest request) throws IOException {
->>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
         // token 값을 통해 memberId (Stirng) 가져오기
         String token = jwtUtils.getJwtFromHeader(request);
         Claims claims = jwtUtils.getUserInfoFromToken(token);
@@ -55,15 +46,9 @@ public class ImageController {
             throw new UserNotFoundException("사용자가 존재하지 않습니다.");
         }
         else {
-<<<<<<< HEAD
             List<String> uploadedUrls = imageService.uploadFileToS3(multipartFiles, "image");
 
             return ResponseEntity.ok(uploadedUrls);
-=======
-            String uploadedUrl = imageService.uploadFileToS3(multipartFile, "image");
-
-            return ResponseEntity.ok(uploadedUrl);
->>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
         }
     }
 

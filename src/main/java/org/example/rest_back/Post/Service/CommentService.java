@@ -7,13 +7,8 @@ import org.example.rest_back.Post.Domain.Post;
 import org.example.rest_back.Post.Dto.CommentDto;
 import org.example.rest_back.Post.Repository.CommentRepository;
 import org.example.rest_back.config.jwt.JwtUtils;
-<<<<<<< HEAD
-import org.example.rest_back.exception.UserNotFoundException;
-import org.example.rest_back.user.domain.User;
-=======
 import org.example.rest_back.user.domain.User;
 import org.example.rest_back.exception.UserNotFoundException;
->>>>>>> 6eb92bc6029ac91d2c69cee7e069683c34c8354a
 import org.example.rest_back.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,9 +43,9 @@ public class CommentService {
         Post post = postOptional.get();
 
         CommentDto commentDto = CommentDto.builder()
-                                    .post(post)
-                                    .content(content)
-                                    .build();
+                .post(post)
+                .content(content)
+                .build();
 
         return commentRepository.save(convertToEntity(commentDto));
     }
@@ -137,7 +132,6 @@ public class CommentService {
                 .comment_Create_Time(comment.getComment_Create_Time())
                 .comment_Update_Time(comment.getComment_Update_Time())
                 .post_id(comment.getPost().getId())
-                .user_id(comment.getUser().getUser_id())
                 .build();
 
         // 유저 아이디에 해당하는 코드 작성해야 함
@@ -151,7 +145,6 @@ public class CommentService {
                 .comment_Create_Time(commentDto.getComment_Create_Time())
                 .comment_Update_Time(commentDto.getComment_Update_Time())
                 .post(commentDto.getPost())
-                .user(commentDto.getUser())
                 .build();
     }
 
