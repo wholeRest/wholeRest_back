@@ -1,15 +1,12 @@
 package org.example.rest_back.Post.Controller;
 
 import io.jsonwebtoken.Claims;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
-import org.example.rest_back.Post.Domain.Likes;
-import org.example.rest_back.Post.Domain.Post;
 import org.example.rest_back.Post.Service.ImageService;
 import org.example.rest_back.Post.Service.PostService;
 import org.example.rest_back.config.jwt.JwtUtils;
 import org.example.rest_back.user.domain.User;
-import org.example.rest_back.user.domain.exception.UserNotFoundException;
+import org.example.rest_back.exception.UserNotFoundException;
 import org.example.rest_back.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -8,7 +8,7 @@ import org.example.rest_back.Post.Dto.PostDto;
 import org.example.rest_back.Post.Repository.PostRepository;
 import org.example.rest_back.config.jwt.JwtUtils;
 import org.example.rest_back.user.domain.User;
-import org.example.rest_back.user.domain.exception.UserNotFoundException;
+import org.example.rest_back.exception.UserNotFoundException;
 import org.example.rest_back.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

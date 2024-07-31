@@ -10,7 +10,7 @@ import org.example.rest_back.Post.Repository.LikesRepository;
 import org.example.rest_back.Post.Repository.PostRepository;
 import org.example.rest_back.config.jwt.JwtUtils;
 import org.example.rest_back.user.domain.User;
-import org.example.rest_back.user.domain.exception.UserNotFoundException;
+import org.example.rest_back.exception.UserNotFoundException;
 import org.example.rest_back.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
