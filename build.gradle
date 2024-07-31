@@ -49,8 +49,8 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
 	// DB 테스트 관련 ( 로컬에서는 h2 로 사용 )
-	// runtimeOnly 'com.mysql:mysql-connector-j'
-	runtimeOnly 'com.h2database:h2'
+	 runtimeOnly 'com.mysql:mysql-connector-j'
+//	runtimeOnly 'com.h2database:h2'
 
 	// 이메일 인증 관련
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
