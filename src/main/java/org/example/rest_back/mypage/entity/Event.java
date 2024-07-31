@@ -22,7 +22,7 @@ public class Event {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private LocalDate date;
 
     private int emoji;

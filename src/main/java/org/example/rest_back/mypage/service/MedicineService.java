@@ -17,14 +17,6 @@ public class MedicineService {
     private final MedicineRepository medicineRepository;
     private final EventRepository eventRepository;
 
-    //get All
-    public List<MedicineDto> getAllMedicine(){
-        List<Medicine> medicines = medicineRepository.findAll();
-        return medicines.stream()
-                .map(MedicineDto::from)
-                .collect(Collectors.toList());
-    }
-
     //get medicine by eventId
     public List<MedicineDto> getMedicineByEventId(int event_id){
         Event event = eventRepository.findById(event_id).orElse(null);
@@ -35,8 +27,8 @@ public class MedicineService {
     }
 
     //create medicine
-    public void createMedicine(MedicineDto medicineDto){
-        Event event = eventRepository.findById(medicineDto.getEvent_id()).orElse(null);
+    public void createMedicine(int eventId, MedicineDto medicineDto){
+        Event event = eventRepository.findById(eventId).orElse(null);
         if (event == null)
             return;
 
