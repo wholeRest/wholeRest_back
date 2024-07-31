@@ -1,5 +1,6 @@
 package org.example.rest_back.Post.Controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.example.rest_back.Post.Domain.Likes;
 import org.example.rest_back.Post.Dto.LikesDto;
@@ -18,15 +19,15 @@ public class LikesController {
 
     // 좋아요 추가
     @PostMapping
-    public ResponseEntity<LikesDto> addLikes(@ModelAttribute LikesDto likesDto) throws Exception {
-        Likes likes = likesService.insertLike(likesDto);
+    public ResponseEntity<LikesDto> addLikes(@ModelAttribute LikesDto likesDto, HttpServletRequest request) throws Exception {
+        Likes likes = likesService.insertLike(likesDto, request);
         return ResponseEntity.ok(likesService.convertToDto(likes));
     }
 
     // 좋아요 취소
     @DeleteMapping
-    public ResponseEntity<Void> deleteLikes(@ModelAttribute LikesDto likesDto) {
-        likesService.deleteLike(likesDto);
+    public ResponseEntity<Void> deleteLikes(@ModelAttribute LikesDto likesDto, HttpServletRequest request) {
+        likesService.deleteLike(likesDto, request);
         return ResponseEntity.noContent().build();
     }
 }

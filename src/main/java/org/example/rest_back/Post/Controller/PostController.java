@@ -1,10 +1,9 @@
 package org.example.rest_back.Post.Controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.rest_back.Post.Domain.Post;
-import org.example.rest_back.Post.Domain.Users;
 import org.example.rest_back.Post.Dto.PostDto;
 import org.example.rest_back.Post.Service.PostService;
-import org.example.rest_back.Post.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,40 +15,26 @@ import java.util.Optional;
 @RequestMapping("/api/posts")
 public class PostController {
     private final PostService postService;
-    private final UserService userService;
 
     @Autowired
-    public PostController(PostService postService, UserService userService) {
+    public PostController(PostService postService) {
         this.postService = postService;
-        this.userService = userService;
     }
 
     // Create, 게시물 작성
     // 유저 아이디 확인하는 로직 작성해야 함
     @PostMapping
-    public ResponseEntity<PostDto> registerPost(@ModelAttribute PostDto postDto) {
-        Optional<Users> usersOptional = userService.getUserById(postDto.getUser_id());
+    public ResponseEntity<PostDto> registerPost(@ModelAttribute PostDto postDto, HttpServletRequest request) {
 
-        if (usersOptional.isEmpty()){
-            throw new RuntimeException("해당 멤버가 존재하지 않습니다: " + postDto.getUser_id());
-        }
-        Users users = usersOptional.get();
-        Post post = Post.builder()
-                .title(postDto.getTitle())
-                .content(postDto.getContent())
-                .category(postDto.getCategory())
-                .users(users)
-                .imgURLs(postDto.getImgURLs())
-                .build();
-        Post registeredPost = postService.registerPost(post);
+        Post registeredPost = postService.registerPost(postDto, request);
 
         return ResponseEntity.ok(postService.convertToDto(registeredPost));
     }
 
     // Read All, 모든 게시물 조회
     @GetMapping
-    public ResponseEntity<List<PostDto>> getAllPosts() {
-        List<Post> posts = postService.getAllPosts();
+    public ResponseEntity<List<PostDto>> getAllPosts(HttpServletRequest request) {
+        List<Post> posts = postService.getAllPosts(request);
         List<PostDto> postDtos = new ArrayList<>();
 
         for (Post post : posts) {
@@ -61,8 +46,8 @@ public class PostController {
 
     // Read Specific Category, 특정 카테고리의 게시물들만 조회, 카테고리 값으로 조회
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable(name = "category") String category){
-        List<Post> posts = postService.getPostsByCategory(category);
+    public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable(name = "category") String category, HttpServletRequest request){
+        List<Post> posts = postService.getPostsByCategory(category, request);
         List<PostDto> postDtos = new ArrayList<>();
 
         for (Post post : posts) {
@@ -74,8 +59,8 @@ public class PostController {
 
     // Read Only One, 단 하나의 게시물만 조회, id값으로 조회
     @GetMapping("/{id}")
-    public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") Long id){
-        Optional<Post> postOptional = postService.getPostById(id);
+    public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") Long id, HttpServletRequest request){
+        Optional<Post> postOptional = postService.getPostById(id, request);
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
 
@@ -88,9 +73,9 @@ public class PostController {
 
     // Update, 게시물 수정
     @PatchMapping("/{id}")
-    public ResponseEntity<PostDto> updatePost(@PathVariable(name = "id") Long id, @ModelAttribute PostDto postDto) {
+    public ResponseEntity<PostDto> updatePost(@PathVariable(name = "id") Long id, @ModelAttribute PostDto postDto, HttpServletRequest request) {
         try {
-            Post post = postService.updatePost(id, postDto);
+            Post post = postService.updatePost(id, postDto, request);
             return ResponseEntity.ok(postService.convertToDto(post));
         }
         catch (RuntimeException e) {
@@ -100,8 +85,8 @@ public class PostController {
 
     // Delete, 게시물 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable(name = "id") Long id){
-        postService.deletePost(id);
+    public ResponseEntity<Void> deletePost(@PathVariable(name = "id") Long id, HttpServletRequest request){
+        postService.deletePost(id, request);
         return ResponseEntity.noContent().build();
     }
 }

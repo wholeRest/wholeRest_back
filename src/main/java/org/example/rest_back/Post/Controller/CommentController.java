@@ -1,5 +1,6 @@
 package org.example.rest_back.Post.Controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.rest_back.Post.Domain.Comment;
 import org.example.rest_back.Post.Domain.Post;
 import org.example.rest_back.Post.Dto.CommentDto;
@@ -27,10 +28,10 @@ public class CommentController {
     // Create, 댓글 생성
     // 유저 아이디 확인하는 로직 작성해야 함
     @PostMapping({"/posts/{post_id}"})
-    public ResponseEntity<CommentDto> registerComment(@PathVariable(name = "post_id")Long post_id, @ModelAttribute String content){
+    public ResponseEntity<CommentDto> registerComment(@PathVariable(name = "post_id")Long post_id, @ModelAttribute String content, HttpServletRequest request){
         Optional<Post> postOptional = postRepository.findById(post_id);
         if (postOptional.isPresent()){
-            Comment comment = commentService.registerComment(post_id, content);
+            Comment comment = commentService.registerComment(post_id, content, request);
 
             return ResponseEntity.ok(commentService.convertToDto(comment));
         }
@@ -41,8 +42,8 @@ public class CommentController {
 
     // Read All. 특정 게시물(post_id)에 해당하는 모든 댓글 조회
     @GetMapping({"/posts/{post_id}"})
-    public ResponseEntity<List<CommentDto>> getAllComments(@PathVariable(name = "post_id")Long post_id) {
-        List<Comment> comments = commentService.getAllComments(post_id);
+    public ResponseEntity<List<CommentDto>> getAllComments(@PathVariable(name = "post_id")Long post_id, HttpServletRequest request) {
+        List<Comment> comments = commentService.getAllComments(post_id, request);
         List<CommentDto> commentDtos = new ArrayList<>();
 
         for (Comment comment : comments) {
@@ -54,9 +55,9 @@ public class CommentController {
 
     // Update, 댓글 수정
     @PatchMapping("/{id}")
-    public ResponseEntity<CommentDto> updateComment(@PathVariable(name = "id")Long id, @ModelAttribute CommentDto commentDto){
+    public ResponseEntity<CommentDto> updateComment(@PathVariable(name = "id")Long id, @ModelAttribute CommentDto commentDto, HttpServletRequest request){
         try {
-            Comment comment = commentService.updateComment(id, commentDto);
+            Comment comment = commentService.updateComment(id, commentDto, request);
             return ResponseEntity.ok(commentService.convertToDto(comment));
         }
         catch (RuntimeException e) {
@@ -66,8 +67,8 @@ public class CommentController {
 
     // Delete, 댓글 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable(name = "id") Long id) {
-        commentService.deleteComment(id);
+    public ResponseEntity<Void> deleteComment(@PathVariable(name = "id") Long id, HttpServletRequest request) {
+        commentService.deleteComment(id, request);
         return ResponseEntity.noContent().build();
     }
 }
