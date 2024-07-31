@@ -22,9 +22,11 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
 
-    @Column(unique = true, nullable = false)
-    private String member_id;
-    // 중복 값 및 Null 값 허용되지 않게 설정
+    //테이블 매핑은 언더바로 처리하고, 속성명은 카멜케이스로.
+    //JPARepository 에서 _ 는 예약어기 때문에 사용할 수 없음.
+
+    @Column(name="member_id", unique = true, nullable = false)
+    private String memberId;
 
     @Column(nullable = false)
     private String password;
@@ -57,7 +59,7 @@ public class User implements UserDetails {
 
     @Override // Spring Security에서 사용자 식별을 위해 사용되는 메소드
     public String getUsername() {
-        return member_id; // 식별을 위한 고유한 값;
+        return memberId; // 식별을 위한 고유한 값;
     }
 
     @Override
@@ -84,8 +86,8 @@ public class User implements UserDetails {
         return true;
     }
 
-    public User(String member_id, String password, String name, String nickName, String email, String phoneNumber) {
-        this.member_id = member_id;
+    public User(String memberId, String password, String name, String nickName, String email, String phoneNumber) {
+        this.memberId = memberId;
         this.password = password;
         this.name = name;
         this.nickName = nickName;
