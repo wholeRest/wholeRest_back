@@ -1,9 +1,11 @@
 package org.example.rest_back.user.controller;
 
+import com.amazonaws.Response;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.rest_back.config.jwt.JwtUtils;
 import org.example.rest_back.exception.UserAlreadyExistsException;
+import org.example.rest_back.exception.UserNotFoundException;
 import org.example.rest_back.user.dto.*;
 import org.example.rest_back.user.service.RefreshTokenService;
 import org.example.rest_back.user.service.UserDetailService;
@@ -87,6 +89,18 @@ public class AuthController {
         // Bearer_prefix : bearer ( 토큰 유형 명시 접두사 ) -> 즉 토큰을 응답 헤더에 포함시킴.
 
         return ResponseEntity.ok(new JwtResponseDto("로그인에 성공하였습니다.", HttpStatus.OK.value(),jwt,refreshToken));
+    }
+
+    // 아이디 찾기 API
+    @PostMapping("/findId")
+    public ResponseEntity<MsgResponseDto> findId(@RequestBody @Valid FindIdDto findIdDto) {
+        try{
+            String idFound = userService.findId(findIdDto);
+            return ResponseEntity.ok(new MsgResponseDto(idFound, HttpStatus.OK.value()));
+        }catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new MsgResponseDto("입력하신 정보의 아이디를 찾지 못했습니다.", HttpStatus.BAD_REQUEST.value()));
+        }
     }
 
 

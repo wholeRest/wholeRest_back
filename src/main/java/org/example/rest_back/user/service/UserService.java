@@ -7,6 +7,7 @@ import org.example.rest_back.user.domain.User;
 import org.example.rest_back.exception.InvalidPasswordException;
 import org.example.rest_back.exception.UserAlreadyExistsException;
 import org.example.rest_back.exception.UserNotFoundException;
+import org.example.rest_back.user.dto.FindIdDto;
 import org.example.rest_back.user.dto.IdDuplicationDto;
 import org.example.rest_back.user.dto.LoginDto;
 import org.example.rest_back.user.dto.RegistrationDto;
@@ -76,5 +77,16 @@ public class UserService {
         // JWT 토큰 생성 및 응답 헤더에 추가
         String token = jwtUtils.createToken(user);
         response.setHeader(JwtUtils.AUTHORIZATION_HEADER, token);
+    }
+
+    // 아이디 찾기
+    public String findId(FindIdDto findIdDto){
+        String name = findIdDto.getName();
+        String dateOfBirth = findIdDto.getDateOfBirth();
+
+        User user = userRepository.findByNameAndDateOfBirth(name, dateOfBirth)
+                .orElseThrow(()->new UserNotFoundException("입력된 정보이 아이디를 찾지 못했습니다."));
+        // Dto 의 성명, 생년월일로 user 를 찾고 없으면 Exceptin Throw
+        return user.getMemberId();
     }
 }
