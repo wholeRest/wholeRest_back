@@ -16,27 +16,27 @@ import java.util.List;
 public class TodoController {
     private final TodoService todoService;
 
-    @GetMapping
-    public ResponseEntity<List<TodoDto>> getTodosByMemberId(HttpServletRequest request){
-        List<TodoDto> todos = todoService.getTodosByMemberId(request);
+    @GetMapping("/{eventId}")
+    public ResponseEntity<List<TodoDto>> getTodosByEventId(@PathVariable int eventId){
+        List<TodoDto> todos = todoService.getTodosByEventId(eventId);
         return ResponseEntity.ok(todos);
     }
 
-    @PostMapping
-    public ResponseEntity<Void> createTodo(@RequestBody TodoDto todoDto, HttpServletRequest request){
-        todoService.createTodo(todoDto, request);
+    @PostMapping("/{eventId}")
+    public ResponseEntity<Void> createTodo(@PathVariable int eventId, @RequestBody TodoDto todoDto){
+        todoService.createTodo(eventId, todoDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateTodo(@PathVariable int id, @RequestBody TodoDto todoDto, HttpServletRequest request) {
-        todoService.updateTodo(id, todoDto, request);
+    @PatchMapping("/{todoId}")
+    public ResponseEntity<Void> updateTodo(@PathVariable int todoId, @RequestBody TodoDto todoDto) {
+        todoService.updateTodo(todoId, todoDto);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTodo(@PathVariable int id, HttpServletRequest request) {
-        todoService.deleteTodo(id, request);
+    @DeleteMapping("/{todoId}")
+    public ResponseEntity<Void> deleteTodo(@PathVariable int todoId) {
+        todoService.deleteTodo(todoId);
         return ResponseEntity.ok().build();
     }
 }
