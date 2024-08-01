@@ -116,4 +116,9 @@ public class User implements UserDetails {
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
     }
+
+    //setter를 추가하는 것 대신, 비밀번호 변경 시 활용할 수 있는 메소드 추가
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+    }
 }
