@@ -3,14 +3,12 @@ package org.example.rest_back.user.service;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.rest_back.config.jwt.JwtUtils;
+import org.example.rest_back.exception.PasswordNotEqualException;
 import org.example.rest_back.user.domain.User;
 import org.example.rest_back.exception.InvalidPasswordException;
 import org.example.rest_back.exception.UserAlreadyExistsException;
 import org.example.rest_back.exception.UserNotFoundException;
-import org.example.rest_back.user.dto.FindIdDto;
-import org.example.rest_back.user.dto.IdDuplicationDto;
-import org.example.rest_back.user.dto.LoginDto;
-import org.example.rest_back.user.dto.RegistrationDto;
+import org.example.rest_back.user.dto.*;
 import org.example.rest_back.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -85,8 +83,35 @@ public class UserService {
         String dateOfBirth = findIdDto.getDateOfBirth();
 
         User user = userRepository.findByNameAndDateOfBirth(name, dateOfBirth)
-                .orElseThrow(()->new UserNotFoundException("입력된 정보이 아이디를 찾지 못했습니다."));
+                .orElseThrow(()->new UserNotFoundException("입력된 정보의 아이디를 찾지 못했습니다."));
         // Dto 의 성명, 생년월일로 user 를 찾고 없으면 Exceptin Throw
         return user.getMemberId();
+    }
+
+    // 비밀번호 변경 전, Dto 를 통해서 아이디 객체 확인
+    public User beforeChangePw(BeforeChangePwDto beforeChangePwDto){
+
+        String userId = beforeChangePwDto.getUserId();
+        String name = beforeChangePwDto.getName();
+        String dateOfBirth = beforeChangePwDto.getDateOfBirth();
+
+        User user = userRepository.findByMemberIdAndNameAndDateOfBirth(userId, name, dateOfBirth)
+                .orElseThrow(()->new UserNotFoundException("입력된 정보의 아이디를 찾지 못했습니다."));
+        // Dto 의 Id, 이름, 생년월일로 user 를 찾고 없으면 Exception Throw
+
+        return user;
+    }
+    // 비밀번호 변경
+    public void changePw(ChangePwDto changePwDto, User user){
+
+        String newPw = changePwDto.getNewPw();
+        String newPwConfirm = changePwDto.getNewPwConfirm();
+
+        if(newPw.equals(newPwConfirm)){
+            String encodedPassword = passwordEncoder.encode(newPwConfirm);
+            user.changePassword(encodedPassword);
+        }else{
+            throw new PasswordNotEqualException("비밀번호의 두 입력 필드가 일치하지 않습니다.");
+        }
     }
 }

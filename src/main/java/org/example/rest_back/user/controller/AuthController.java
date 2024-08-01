@@ -6,11 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.rest_back.config.jwt.JwtUtils;
 import org.example.rest_back.exception.UserAlreadyExistsException;
 import org.example.rest_back.exception.UserNotFoundException;
+import org.example.rest_back.user.domain.User;
 import org.example.rest_back.user.dto.*;
-import org.example.rest_back.user.service.RefreshTokenService;
-import org.example.rest_back.user.service.UserDetailService;
-import org.example.rest_back.user.service.UserService;
-import org.example.rest_back.user.service.VerificationService;
+import org.example.rest_back.user.service.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +17,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 
 @RestController
@@ -37,6 +36,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
     private final UserDetailService userDetailService;
+    private final PwRestTokenService pwRestTokenService;
 
     // 회원가입 API
     @PostMapping("/signUp")
@@ -125,4 +125,55 @@ public class AuthController {
 
         return ResponseEntity.ok(new JwtResponseDto("새로운 엑세스 토큰이 발급되었습니다", HttpStatus.OK.value(), newAccessToken, refreshToken));
     }
+
+
+    // 비밀번호 변경 (1) ( 아이디, 성명, 생년월일 필드를 통한 사용자 확인 )
+    @PostMapping("/beforeChangePw")
+    public ResponseEntity<Map<String, Object>> beforeChangePw(@RequestBody @Valid BeforeChangePwDto beforeChangePwDto) {
+        try {
+            User user = userService.beforeChangePw(beforeChangePwDto);
+            String resetToken = UUID.randomUUID().toString();
+            pwRestTokenService.saveToken(resetToken, user);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "사용자 확인 성공, 이메일 인증을 진행하세요.");
+            response.put("status", HttpStatus.OK.value());
+            response.put("token", resetToken);
+
+            return ResponseEntity.ok(response);
+
+            // 기존의 MsgResponseDto에는 해당 token 을 넣을수가 없어서 일단 급한대로 하고
+            // 후에 dto 다시 만들어서 리팩토링 할것.
+
+        } catch (UserNotFoundException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "입력하신 정보의 사용자를 찾을 수 없습니다.");
+            response.put("status", HttpStatus.BAD_REQUEST.value());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+    // 비밀번호 변경 (2) 는 이메일 인증 ( 기존 로직 활용 )
+
+    // 이후 비밀번호 변경 (3) : 실질적인 변경
+    @PostMapping("/pwReset")
+    public ResponseEntity<MsgResponseDto> resetPassword(@RequestBody @Valid ChangePwDto changePwDto) {
+        try {
+            User user = pwRestTokenService.getUserByToken(changePwDto.getResetToken());
+            // 토큰 값으로 사용자 찾고 토큰값을 넣지 않았다면 401 return
+
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(new MsgResponseDto("유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED.value()));
+            }
+
+            userService.changePw(changePwDto, user);
+            return ResponseEntity.ok(new MsgResponseDto("비밀번호가 성공적으로 변경되었습니다.", HttpStatus.OK.value()));
+        } catch (Exception e) {
+            // 그 외의 다른 Exception 들은 해당 블록에서 전부 처리.
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MsgResponseDto("비밀번호 변경 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        }
+    }
+
 }
