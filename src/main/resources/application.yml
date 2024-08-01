@@ -10,7 +10,7 @@ swagger-ui:
     - /api/**
 
 ##database
-#spring:
+spring:
   datasource:
     url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
     username: ${RDS_USERNAME}
