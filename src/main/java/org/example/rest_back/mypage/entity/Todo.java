@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.rest_back.user.domain.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -19,8 +18,8 @@ public class Todo {
     private int todo_id;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event;
 
     private String content;
     private Boolean completed;
