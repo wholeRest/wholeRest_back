@@ -84,8 +84,6 @@ public class LikesService {
     // Entity -> Dto
     public LikesDto convertToDto(Likes likes){
         return LikesDto.builder()
-                .id(likes.getId())
-                .user_id(likes.getUser().getUser_id())
                 .post_id(likes.getPost().getId())
                 .build();
     }
@@ -93,8 +91,6 @@ public class LikesService {
     // Dto -> Entity
     public Likes convertToEntity(LikesDto likesDto){
         return Likes.builder()
-                .id(likesDto.getId())
-                .user(likesDto.getUser())
                 .post(likesDto.getPost())
                 .build();
     }

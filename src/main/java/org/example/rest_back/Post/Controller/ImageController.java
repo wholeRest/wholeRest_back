@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/images")
@@ -33,7 +34,7 @@ public class ImageController {
 
     // 이미지 업로드, S3 URL 반환
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadImages(@RequestParam("image") MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+    public ResponseEntity<List<String>> uploadImages(@RequestParam("images") List<MultipartFile> multipartFiles, HttpServletRequest request) throws IOException {
         // token 값을 통해 memberId (Stirng) 가져오기
         String token = jwtUtils.getJwtFromHeader(request);
         Claims claims = jwtUtils.getUserInfoFromToken(token);
@@ -45,9 +46,9 @@ public class ImageController {
             throw new UserNotFoundException("사용자가 존재하지 않습니다.");
         }
         else {
-            String uploadedUrl = imageService.uploadFileToS3(multipartFile, "image");
+            List<String> uploadedUrls = imageService.uploadFileToS3(multipartFiles, "image");
 
-            return ResponseEntity.ok(uploadedUrl);
+            return ResponseEntity.ok(uploadedUrls);
         }
     }
 

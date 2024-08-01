@@ -20,6 +20,7 @@ public class RestBackApplication {
 		System.setProperty("JWT_SECRET_KEY", dotenv.get(("JWT_SECRET_KEY")));
 		System.setProperty("MAIL_PASSWORD", dotenv.get(("MAIL_PASSWORD")));
 	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(RestBackApplication.class, args);
 	}

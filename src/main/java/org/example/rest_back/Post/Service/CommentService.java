@@ -43,9 +43,9 @@ public class CommentService {
         Post post = postOptional.get();
 
         CommentDto commentDto = CommentDto.builder()
-                                    .post(post)
-                                    .content(content)
-                                    .build();
+                .post(post)
+                .content(content)
+                .build();
 
         return commentRepository.save(convertToEntity(commentDto));
     }
@@ -132,7 +132,6 @@ public class CommentService {
                 .comment_Create_Time(comment.getComment_Create_Time())
                 .comment_Update_Time(comment.getComment_Update_Time())
                 .post_id(comment.getPost().getId())
-                .user_id(comment.getUser().getUser_id())
                 .build();
 
         // 유저 아이디에 해당하는 코드 작성해야 함
@@ -146,7 +145,6 @@ public class CommentService {
                 .comment_Create_Time(commentDto.getComment_Create_Time())
                 .comment_Update_Time(commentDto.getComment_Update_Time())
                 .post(commentDto.getPost())
-                .user(commentDto.getUser())
                 .build();
     }
 

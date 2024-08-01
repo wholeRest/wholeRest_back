@@ -1,17 +1,16 @@
 package org.example.rest_back.Post.Domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.rest_back.Post.Dto.CommentDto;
-import org.example.rest_back.Post.Dto.PostDto;
 import org.example.rest_back.user.domain.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 
 // DB 테이블과 매칭될 클래스

@@ -107,7 +107,7 @@ public class User implements UserDetails {
     }
 
     public User(String memberId, String password, String name, String nickName, String email, String phoneNumber,
-    String dateOfBirth) {
+                String dateOfBirth) {
         this.memberId = memberId;
         this.password = password;
         this.name = name;

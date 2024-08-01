@@ -36,7 +36,6 @@ public class CautionService {
         caution.setEvent(event);
         caution.setContent(cautionDto.getContent());
         caution.setCompleted(cautionDto.getCompleted());
-        caution.setCompleted(cautionDto.getCompleted());
         cautionRepository.save(caution);
     }
 

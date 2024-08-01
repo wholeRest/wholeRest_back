@@ -28,7 +28,7 @@ public class CommentController {
     // Create, 댓글 생성
     // 유저 아이디 확인하는 로직 작성해야 함
     @PostMapping({"/posts/{post_id}"})
-    public ResponseEntity<CommentDto> registerComment(@PathVariable(name = "post_id")Long post_id, @ModelAttribute String content, HttpServletRequest request){
+    public ResponseEntity<CommentDto> registerComment(@PathVariable(name = "post_id")Long post_id, @RequestParam(name = "content") String content, HttpServletRequest request){
         Optional<Post> postOptional = postRepository.findById(post_id);
         if (postOptional.isPresent()){
             Comment comment = commentService.registerComment(post_id, content, request);

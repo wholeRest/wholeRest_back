@@ -2,7 +2,6 @@ package org.example.rest_back.Post.Dto;
 
 import lombok.*;
 import org.example.rest_back.Post.Domain.Post;
-import org.example.rest_back.user.domain.User;
 
 @Getter
 @Setter
@@ -18,9 +17,6 @@ import org.example.rest_back.user.domain.User;
 //              .Content("저는 홍길동입니다")
 //              .build();
 public class LikesDto {
-    private Long id;
-    private Long user_id;
     private Long post_id;
-    private User user;
     private Post post;
 }

@@ -50,17 +50,21 @@ public class PostService {
             throw new UserNotFoundException("사용자가 존재하지 않습니다.");
         }
 
-        Post post = Post.builder()
-                .title(postDto.getTitle())
-                .content(postDto.getContent())
-                .imgURLs(postDto.getImgURLs())
-                .build();
+//        Post post = Post.builder()
+//                .title(postDto.getTitle())
+//                .content(postDto.getContent())
+//                .imgURLs(postDto.getImgURLs())
+//                .category(postDto.getCategory())
+//                .user(user)
+//                .build();
+        Post post = convertToEntity(postDto, user);
 
         return postRepository.save(post);
     }
 
     // Read All, 모든 게시물 조회
     public List<Post> getAllPosts(HttpServletRequest request) {
+
         // token 값을 통해 memberId (Stirng) 가져오기
         String token = jwtUtils.getJwtFromHeader(request);
         Claims claims = jwtUtils.getUserInfoFromToken(token);
@@ -193,7 +197,6 @@ public class PostService {
                         .likes_count(post.getLikes_count())
                         .views(post.getViews())
                         .imgURLs(imgUrls)
-                        .user(post.getUser())
                         .build();
 
                 postRepository.save(newPost);
@@ -214,13 +217,12 @@ public class PostService {
                 .likes_count(post.getLikes_count())
                 .post_Create_Time(post.getPost_Create_Time())
                 .post_Update_Time(post.getPost_Update_Time())
-                .user_id(post.getUser().getUser_id())
                 .imgURLs(post.getImgURLs())
                 .build();
     }
 
     // Dto -> Entity
-    public Post convertToEntity(PostDto postDto){
+    public Post convertToEntity(PostDto postDto, User user){
         // Dto(PostDto)객체를 Entity(post)객체로 전환
         return Post.builder()
                 .id(postDto.getId())
@@ -229,10 +231,8 @@ public class PostService {
                 .views(postDto.getViews())
                 .category(postDto.getCategory())
                 .likes_count(postDto.getLikes_count())
-                .post_Create_Time(postDto.getPost_Create_Time())
-                .post_Update_Time(postDto.getPost_Update_Time())
-                .user(postDto.getUser())
                 .imgURLs(postDto.getImgURLs())
+                .user(user)
                 .build();
     }
 }

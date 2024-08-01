@@ -25,7 +25,6 @@ public class PostController {
     // 유저 아이디 확인하는 로직 작성해야 함
     @PostMapping
     public ResponseEntity<PostDto> registerPost(@ModelAttribute PostDto postDto, HttpServletRequest request) {
-
         Post registeredPost = postService.registerPost(postDto, request);
 
         return ResponseEntity.ok(postService.convertToDto(registeredPost));
@@ -65,7 +64,7 @@ public class PostController {
             Post post = postOptional.get();
 
             return ResponseEntity.ok(postService.convertToDto(post));
-            }
+        }
         else {
             return ResponseEntity.notFound().build();
         }

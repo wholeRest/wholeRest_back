@@ -1,7 +1,6 @@
 package org.example.rest_back.Post.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.example.rest_back.Post.Domain.Likes;
 import org.example.rest_back.Post.Dto.LikesDto;
 import org.example.rest_back.Post.Service.LikesService;
