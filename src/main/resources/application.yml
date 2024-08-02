@@ -26,10 +26,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
-  servlet:
-    multipart:
-      maxFileSize: 20MB
-      maxRequestSize: 100MB
+#  servlet:
+#    multipart:
+#      maxFileSize: 20MB
+#      maxRequestSize: 100MB
 
 #S3
 cloud:
