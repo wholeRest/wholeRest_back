@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -16,17 +17,17 @@ import java.util.List;
 public class ScheduleController {
     private final ScheduleService scheduleService;
 
-    //get schedule by memberId
+    //get schedule by year and month
     @GetMapping
-    public ResponseEntity<List<ScheduleDto>> getScheduleByMemberId(HttpServletRequest request){
-        List<ScheduleDto> schedules = scheduleService.getSchedulesByMemberId(request);
+    public ResponseEntity<List<ScheduleDto>> getScheduleByMemberIdAndMonth(@RequestParam String yearMonth, HttpServletRequest request){
+        List<ScheduleDto> schedules = scheduleService.getSchedulesByMemberIdAndMonth(yearMonth, request);
         return ResponseEntity.ok(schedules);
     }
 
     //get schedule by date
     @GetMapping("/date")
-    public ResponseEntity<List<ScheduleDto>> getScheduleByMemberIdAndDate(@RequestParam int year, @RequestParam int month, HttpServletRequest request){
-        List<ScheduleDto> schedules = scheduleService.getSchedulesByMemberIdAndDate(year, month, request);
+    public ResponseEntity<List<ScheduleDto>> getScheduleByMemberIdAndDate(@RequestParam LocalDate date, HttpServletRequest request){
+        List<ScheduleDto> schedules = scheduleService.getSchedulesByMemberIdAndDate(date, request);
         return ResponseEntity.ok(schedules);
     }
 
