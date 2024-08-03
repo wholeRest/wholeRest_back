@@ -87,6 +87,7 @@ public class ScheduleService {
         schedule.setStart_date(scheduleDto.getStart_date());
         schedule.setEnd_date(scheduleDto.getEnd_date());
         schedule.setSchedule_color(scheduleDto.getSchedule_color());
+        schedule.setContent(scheduleDto.getContent());
         scheduleRepository.save(schedule);
     }
 
@@ -121,6 +122,8 @@ public class ScheduleService {
             schedule.setEnd_date(scheduleDto.getEnd_date());
         if(scheduleDto.getSchedule_color() != null)
             schedule.setSchedule_color(scheduleDto.getSchedule_color());
+        if(scheduleDto.getContent() != null)
+            schedule.setContent(scheduleDto.getContent());
 
         scheduleRepository.save(schedule);
     }
