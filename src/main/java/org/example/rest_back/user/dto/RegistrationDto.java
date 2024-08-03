@@ -24,9 +24,6 @@ public class RegistrationDto {
     @NotBlank(message = "이메일 필드에 값이 존재하지 않거나 공백이 포함되어 있습니다.")
     private String email;
 
-    @NotBlank(message = "핸드폰 번호 필드에 값이 존재하지 않거나 공백이 포함되어 있습니다.")
-    private String phoneNumber;
-
     @NotBlank(message = "생년월일 필드에 값이 존재하지 않거나 공백이 포함되어 있습니다.")
     private String dateOfBirth;
 
