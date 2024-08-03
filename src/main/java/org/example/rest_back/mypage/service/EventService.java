@@ -106,7 +106,6 @@ public class EventService {
         Event event = new Event();
         event.setUser(user);
         event.setDate(eventDto.getDate());
-        event.setEmoji(eventDto.getEmoji());
         event.setToday_feel(eventDto.getToday_feel());
         event.setToday_condition(eventDto.getToday_condition());
         event.setToday_routine(eventDto.getToday_routine());
@@ -197,8 +196,6 @@ public class EventService {
         }
 
         //event 수정
-        if (eventDto.getEmoji() != null)
-            event.setEmoji(eventDto.getEmoji());
         if(eventDto.getToday_feel() != null)
             event.setToday_feel(eventDto.getToday_feel());
         if(eventDto.getToday_condition() != null)
