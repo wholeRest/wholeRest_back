@@ -1,9 +1,11 @@
 package org.example.rest_back.user.controller;
 
 import com.amazonaws.Response;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.rest_back.config.jwt.JwtUtils;
+import org.example.rest_back.exception.PasswordNotEqualException;
 import org.example.rest_back.exception.UserAlreadyExistsException;
 import org.example.rest_back.exception.UserNotFoundException;
 import org.example.rest_back.user.domain.User;
@@ -160,7 +162,7 @@ public class AuthController {
     public ResponseEntity<MsgResponseDto> resetPassword(@RequestBody @Valid ChangePwDto changePwDto) {
         try {
             User user = pwRestTokenService.getUserByToken(changePwDto.getResetToken());
-            // 토큰 값으로 사용자 찾고 토큰값을 넣지 않았다면 401 return
+            // 토큰 값으로 사용자 찾고 토큰값을 넣지 않았다면 401 return ( 여기서는 Access Token 아니고 재발급 토큰임 ! )
 
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -176,4 +178,26 @@ public class AuthController {
         }
     }
 
+
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<MsgResponseDto> deleteUser(@RequestBody @Valid UserDeleteDto userDeleteDto, HttpServletRequest request)
+    {
+        String token = jwtUtils.getJwtFromHeader(request); // 헤더에서 토큰값 추출
+        // JWT 토큰을 사용하여 사용자 삭제
+        userService.deleteUser(userDeleteDto, token);
+
+        // 성공적인 삭제 응답
+        return ResponseEntity.ok(new MsgResponseDto("계정이 성공적으로 삭제되었습니다.", HttpStatus.OK.value()));
+    }
+
+    @PatchMapping("/changeEmail")
+    public ResponseEntity<MsgResponseDto> changeEmail(@RequestBody @Valid EmailDto emailDto, HttpServletRequest request)
+    {
+        String token = jwtUtils.getJwtFromHeader(request); // 헤더에서 토큰값 추출
+        // JWT 토큰을 사용하여 사용자 삭제
+        userService.changeEmail(emailDto, token);
+
+        // 성공적인 삭제 응답
+        return ResponseEntity.ok(new MsgResponseDto("이메일이 성공적으로 변경되었습니다.", HttpStatus.OK.value()));
+    }
 }
