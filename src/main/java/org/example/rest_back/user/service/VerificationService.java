@@ -52,8 +52,8 @@ public class VerificationService {
             body += "<h1 style='font-size: 36px; color: #FF5722; text-align: center;'>" + number + "</h1>";
             body += "<div style='border-top: 1px solid #ddd; margin-top: 20px; padding-top: 20px;'>";
             body += "<p style='text-align: center; color: #555;'>우린 누구나 장애를 가지고 있습니다.</p>";
-            body += "<p style='text-align: center; color: #555;'>야스토미 아유미의 책 \"<strong>단단한 삶</strong>\"을 보면 형태가 다를 뿐이지 누구나 장애를 가지고 있다고 합니다.</p>";
-            body += "<p style='text-align: center; color: #555;'>선한 영향력을 온쉼표를 통해 나누고, 모두가 더 나은 삶을 지향하도록 돕는 온쉼표.</p>";
+            body += "<p style='text-align: center; color: #555;'>야스토미 아유미의 책 \"<strong>단단한 삶</strong>\"을 보면 형태가 다를 뿐, 누구나 장애를 가지고 있다고 합니다.</p>";
+            body += "<p style='text-align: center; color: #555;'>선한 영향력을 온쉼표를 통해 나누고, 모두가 더 나은 삶을 지향했으면 합니다.</p>";
             body += "</div>";
             body += "</div></body></html>";
             helper.setText(body, true); // HTML 형식의 본문 사용

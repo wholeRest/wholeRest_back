@@ -44,8 +44,8 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true, length = 30)
     private String email;
 
-    @Column(unique = true, nullable = false)
-    private String phoneNumber;
+//    @Column(unique = true, nullable = false)
+//    private String phoneNumber;
 
     @Column(nullable = false)
     private String dateOfBirth;
@@ -106,19 +106,18 @@ public class User implements UserDetails {
         return true;
     }
 
-    public User(String memberId, String password, String name, String nickName, String email, String phoneNumber,
-                String dateOfBirth) {
+    public User(String memberId, String password, String name, String nickName, String email, String dateOfBirth) {
         this.memberId = memberId;
         this.password = password;
         this.name = name;
         this.nickName = nickName;
         this.email = email;
-        this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
     }
 
-    //setter를 추가하는 것 대신, 비밀번호 변경 시 활용할 수 있는 메소드 추가
+    //setter를 추가하는 것 대신, 변경 시 활용할 수 있는 메소드 추가
     public void changePassword(String newPassword) {
         this.password = newPassword;
     }
+    public void changeEmail(String email){this.email=email;}
 }

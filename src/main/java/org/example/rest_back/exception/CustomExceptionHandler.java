@@ -51,10 +51,25 @@ public class CustomExceptionHandler {
     // 내가 커스텀 한 메세지가 안나옴..
     //"message": "Unauthorized",
 
-
     /*
     * Spring Security에서 AuthenticationException이 발생하면, 기본적으로 "Unauthorized"라는 메시지가 반환됨 ( 디폴트 )
     * UserNotFoundException과 InvalidPasswordException이 AuthenticationException의 처리 과정에서 무시되는 거 같음..
     * */
 
+    // 비밀번호와 비밀번호 재입력과 같은 두가지 필드값을 입력받을때
+    @ExceptionHandler(PasswordNotEqualException.class)
+    public ResponseEntity<Map<String, String>> handlePasswordNotEqualException(PasswordNotEqualException ex) {
+        // 로그인 시도 : 비밀번호가 일치하지 않을 때, Exception 핸들링
+        Map<String, String> response = new HashMap<>();
+        response.put("message", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    // IllegalArumentException : 전달된 값이 적절하지 않을 때 throw 하는 exception ( AuthController 참고 )
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }

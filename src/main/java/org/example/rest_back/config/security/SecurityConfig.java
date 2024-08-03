@@ -36,12 +36,31 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/auth/**","/h2-console/**")
-                .csrf(AbstractHttpConfigurer::disable)
+                .securityMatcher("/api/**","/h2-console/**") // 필터체인 적용 범위 설정
+                .csrf(AbstractHttpConfigurer::disable) // CSRF 보호 비활성화
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/auth/**").permitAll() // 인증 없이 접근 허용 (로그인, 회원가입 등)
-                        .requestMatchers("/h2-console/**").permitAll() // H2 콘솔 접근 허용
-                        .anyRequest().authenticated() // 나머지 요청은 인증 필요
+                        // 인증이 필요한 경로들 ( 토큰 재발급, 이메일 변경, 아이디 삭제는 토큰 필요 ) 
+                        .requestMatchers("/api/auth/refresh", "/api/auth/changeEmail", "/api/auth/deleteUser").authenticated()
+                        // 인증 없이 접근 허용할 경로들
+                        .requestMatchers("/api/auth/**").permitAll()
+                        // 다시 여기서 permitAll 을 하면, 위의 3가지의 설정이 덮어씌워져서, 허용되는거라고 착각할 수 있으나
+                        // 인증에 필요한 경로는 우선적으로 명시해주고, permitAll 로 전역설정의 순서를 따라야 한다고 함 (gpt - 확실치않음. 계속 우기는데 의심스러움)
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/api/verification/**").permitAll() // 이메일 인증 관련 허용
+                        // 인증이 필요한 경로들
+                        .requestMatchers(
+                                "/api/todo/**",
+                                "/api/schedule/**",
+                                "/api/event/**",
+                                "/api/medicine/**",
+                                "/api/checkup/**",
+                                "/api/caution/**",
+                                "/api/posts/**",
+                                "/api/likes/**",
+                                "/api/comments/**",
+                                "/api/images/**"
+                        ).authenticated()
+                        .anyRequest().authenticated() // 나머지 모든 요청은 인증 필요
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint) // 인증 실패 시 처리
