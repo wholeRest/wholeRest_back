@@ -17,9 +17,9 @@ public class EventResponseDto {
     private String today_condition;
     private String today_routine;
     private String today_appreciation;
-//    private String morning_image_url;
-//    private String lunch_image_url;
-//    private String dinner_image_url;
+    private String morning_image_url;
+    private String lunch_image_url;
+    private String dinner_image_url;
     private String today_memo;
 
     public static EventResponseDto from(Event event){
@@ -30,9 +30,9 @@ public class EventResponseDto {
         responseDto.setToday_condition(event.getToday_condition());
         responseDto.setToday_routine(event.getToday_routine());
         responseDto.setToday_appreciation(event.getToday_appreciation());
-//        responseDto.setMorning_image_url(event.getMorning_image_url());
-//        responseDto.setLunch_image_url(event.getLunch_image_url());
-//        responseDto.setDinner_image_url(event.getDinner_image_url());
+        responseDto.setMorning_image_url(event.getMorning_image_url());
+        responseDto.setLunch_image_url(event.getLunch_image_url());
+        responseDto.setDinner_image_url(event.getDinner_image_url());
         responseDto.setToday_memo(event.getToday_memo());
         return responseDto;
     }
