@@ -20,8 +20,8 @@ public class EventDto {
     private String today_condition;
     private String today_routine;
     private String today_appreciation;
-    private MultipartFile morning_image_file;
-    private MultipartFile lunch_image_file;
-    private MultipartFile dinner_image_file;
+//    private MultipartFile morning_image_file;
+//    private MultipartFile lunch_image_file;
+//    private MultipartFile dinner_image_file;
     private String today_memo;
 }
