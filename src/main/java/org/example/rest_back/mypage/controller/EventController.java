@@ -3,6 +3,7 @@ package org.example.rest_back.mypage.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.example.rest_back.mypage.dto.EventDto;
+import org.example.rest_back.mypage.dto.EventImageDto;
 import org.example.rest_back.mypage.dto.EventResponseDto;
 import org.example.rest_back.mypage.service.EventService;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,13 @@ public class EventController {
         eventService.deleteEvent(eventId, request);
         return ResponseEntity.ok().build();
     }
+    //upload event image
+    @PatchMapping("/image/{eventId}")
+    public ResponseEntity<Void> postEventImage(@PathVariable int eventId, @ModelAttribute EventImageDto eventImageDto, HttpServletRequest request) throws IOException {
+        eventService.uploadEventImage(eventId, eventImageDto, request);
+        return ResponseEntity.ok().build();
+    }
+
 
     //edelte event image
     @DeleteMapping("/image/{eventId}")
