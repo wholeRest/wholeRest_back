@@ -89,6 +89,28 @@ public class EventService {
         event.setToday_routine(eventDto.getToday_routine());
         event.setToday_appreciation(eventDto.getToday_appreciation());
         event.setToday_memo(eventDto.getToday_memo());
+        //투두
+        event.setTodoContent1(eventDto.getTodoContent1());
+        event.setTodoContent2(eventDto.getTodoContent2());
+
+        //약 복용 시간
+        event.setMedicineContent1(eventDto.getMedicineContent1());
+        event.setMedicineContent2(eventDto.getMedicineContent2());
+        event.setMedicineContent3(eventDto.getMedicineContent3());
+        event.setMedicineContent4(eventDto.getMedicineContent4());
+
+        //검진 결과
+        event.setCheckupContent1(eventDto.getCheckupContent1());
+        event.setCheckupContent2(eventDto.getCheckupContent2());
+        event.setCheckupContent3(eventDto.getCheckupContent3());
+        event.setCheckupContent4(eventDto.getCheckupContent4());
+
+        //주의사항
+        event.setCautionContent1(eventDto.getCautionContent1());
+        event.setCautionContent2(eventDto.getCautionContent2());
+        event.setCautionContent3(eventDto.getCautionContent3());
+        event.setCautionContent4(eventDto.getCautionContent4());
+
         eventRepository.save(event);
     }
 
