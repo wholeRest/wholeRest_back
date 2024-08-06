@@ -148,6 +148,42 @@ public class EventService {
         if(eventDto.getToday_appreciation() != null)
             event.setToday_appreciation(eventDto.getToday_appreciation());
 
+        //투두
+        if(eventDto.getTodoContent1() != null)
+            event.setTodoContent1(eventDto.getTodoContent1());
+        if(eventDto.getTodoContent2() != null)
+            event.setTodoContent2(eventDto.getTodoContent2());
+
+        //약 복용
+        if(eventDto.getMedicineContent1() != null)
+            event.setMedicineContent1(eventDto.getMedicineContent1());
+        if(eventDto.getMedicineContent2() != null)
+            event.setMedicineContent2(eventDto.getMedicineContent2());
+        if(eventDto.getMedicineContent3() != null)
+            event.setMedicineContent3(eventDto.getMedicineContent3());
+        if(eventDto.getMedicineContent4() != null)
+            event.setMedicineContent4(eventDto.getMedicineContent4());
+
+        //검진 결과
+        if(eventDto.getCheckupContent1() != null)
+            event.setCheckupContent1(eventDto.getCheckupContent1());
+        if(eventDto.getCheckupContent2() != null)
+            event.setCheckupContent2(eventDto.getCheckupContent2());
+        if(eventDto.getCheckupContent3() != null)
+            event.setCheckupContent3(eventDto.getCheckupContent3());
+        if(eventDto.getCheckupContent4() != null)
+            event.setCheckupContent4(eventDto.getCheckupContent4());
+
+        //주의 사항
+        if(eventDto.getCautionContent1() != null)
+            event.setCautionContent1(eventDto.getCautionContent1());
+        if(eventDto.getCautionContent2() != null)
+            event.setCautionContent2(eventDto.getCautionContent2());
+        if(eventDto.getCautionContent3() != null)
+            event.setCautionContent3(eventDto.getCautionContent3());
+        if(eventDto.getCautionContent4() != null)
+            event.setCautionContent4(eventDto.getCautionContent4());
+
         eventRepository.save(event);
     }
 
