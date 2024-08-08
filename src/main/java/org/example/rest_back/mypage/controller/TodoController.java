@@ -1,6 +1,5 @@
 package org.example.rest_back.mypage.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.example.rest_back.mypage.dto.TodoDto;
 import org.example.rest_back.mypage.service.TodoService;
