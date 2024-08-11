@@ -82,9 +82,18 @@ cd wholeRest_be
 <br>
 <br>
 
-주요 기능 3 : **마이페이지** (Today's Diary 를 통한 상세한 감정 및 AWS S3 BUCKET 을 통한 이미지 업로드 기능 구현)
+주요 기능 3 : **마이페이지** (Today's Diary 를 통한 상세한 감정 및 AWS S3 BUCKET 을 통한 이미지 업로드 기능 구현
+<br><br>
 
-## CI / CD
+## erd 설계
+![image](https://github.com/user-attachments/assets/f97d42e3-208e-43ad-9609-84766578eaad)
+<br><br>
+
+## 깃 협업 브랜치 흐름
+![image](https://github.com/user-attachments/assets/5c1a26ac-af17-4610-af23-3e3ee9f4e906)
+<br><br>
+
+## CI / CD 흐름
 <img src="https://github.com/user-attachments/assets/88cf8c77-6528-4f53-9577-270e4da35a22" width="650" />
 
 
