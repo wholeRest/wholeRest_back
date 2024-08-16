@@ -40,7 +40,14 @@ cd wholeRest_be
 ```
 
 #### Frontend Requirements 
-작성중.. 
+- **Node.js**: 20.15.0
+- **npm**: 10.8.1
+```
+git clone https://github.com/wholeRest/wholeRest_fe.git
+cd wholeRest_fe
+npm install
+npm run dev
+``` 
 
 ## Stacks
 #### Design (UI/UX) 
@@ -86,5 +93,7 @@ cd wholeRest_be
 
 ## CI / CD
 <img src="https://github.com/user-attachments/assets/88cf8c77-6528-4f53-9577-270e4da35a22" width="650" />
+
+
 
 
