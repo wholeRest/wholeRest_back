@@ -84,14 +84,13 @@ cd wholeRest_be
 
 주요 기능 3 : **마이페이지** (Today's Diary 를 통한 상세한 감정 및 AWS S3 BUCKET 을 통한 이미지 업로드 기능 구현)
 
-<img src="https://github.com/user-attachments/assets/d18bb9ec-8eb4-4ddf-9610-3fc670ebb7f1" width="250"/>
 <br>
+<img src="https://github.com/user-attachments/assets/d18bb9ec-8eb4-4ddf-9610-3fc670ebb7f1" width="250"/>
 <br>
 
 주요 기능 4 : **커뮤니티** (카테고리별로 게시판 분리, 특정 카테고리 클릭 시 해당 카테고리의 글 조회 가능)
-
-<img src="https://github.com/user-attachments/assets/a9fb71cf-0c3a-4224-ad77-a1da4c5fe6a5" width="250"/>
 <br>
+<img src="https://github.com/user-attachments/assets/a9fb71cf-0c3a-4224-ad77-a1da4c5fe6a5" width="250"/>
 <br>
 
 주요 기능 5 : **커뮤니티** (AWS S3 BUCKET을 통한 이미지 업로드 기능 구현, 게시물 조회 시 댓글 조회 가능)
