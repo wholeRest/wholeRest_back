@@ -92,7 +92,7 @@ cd wholeRest_be
 주요 기능 4 : **커뮤니티** (카테고리별로 게시판 분리, 특정 카테고리 클릭 시 해당 카테고리의 글 조회 가능)
 
 <br>
-<img src="https://github.com/user-attachments/assets/a9fb71cf-0c3a-4224-ad77-a1da4c5fe6a5" width="250"/>
+<img src="https://github.com/user-attachments/assets/a9fb71cf-0c3a-4224-ad77-a1da4c5fe6a5" width="500"/>
 <br>
 <br>
 
