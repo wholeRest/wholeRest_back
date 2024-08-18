@@ -13,7 +13,6 @@ import java.time.LocalDate;
 public class EventResponseDto {
     private int event_id;
     private LocalDate date;
-    private Integer emoji;
     private String today_feel;
     private String today_condition;
     private String today_routine;
@@ -27,7 +26,6 @@ public class EventResponseDto {
         EventResponseDto responseDto = new EventResponseDto();
         responseDto.setEvent_id(event.getEvent_id());
         responseDto.setDate(event.getDate());
-        responseDto.setEmoji(event.getEmoji());
         responseDto.setToday_feel(event.getToday_feel());
         responseDto.setToday_condition(event.getToday_condition());
         responseDto.setToday_routine(event.getToday_routine());
@@ -36,6 +34,7 @@ public class EventResponseDto {
         responseDto.setLunch_image_url(event.getLunch_image_url());
         responseDto.setDinner_image_url(event.getDinner_image_url());
         responseDto.setToday_memo(event.getToday_memo());
+
         return responseDto;
     }
 }

@@ -23,7 +23,6 @@ public class Event {
     @Column(unique = true, nullable = false)
     private LocalDate date;
 
-    private int emoji;
     private String today_feel;
     private String today_condition;
     private String today_routine;

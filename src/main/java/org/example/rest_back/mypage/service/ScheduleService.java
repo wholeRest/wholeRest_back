@@ -15,6 +15,7 @@ import org.example.rest_back.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +26,8 @@ public class ScheduleService {
     private final UserRepository userRepository;
     private final JwtUtils jwtUtils;
 
-    //get by memberId
-    public List<ScheduleDto> getSchedulesByMemberId(HttpServletRequest request){
+    //get by memberId and Month
+    public List<ScheduleDto> getSchedulesByMemberIdAndMonth(String yearMonthStr, HttpServletRequest request){
         //token값을 통해 memberId 가져오기
         String token = jwtUtils.getJwtFromHeader(request);
         Claims claims = jwtUtils.getUserInfoFromToken(token);
@@ -38,14 +39,26 @@ public class ScheduleService {
             throw new UserNotFoundException("사용자가 존재하지 않습니다.");
         }
 
-        List<Schedule> schedules = scheduleRepository.findByUser(user);
+        // 입력받은 문자열을 YearMonth로 변환
+        YearMonth currentMonth = YearMonth.parse(yearMonthStr);
+
+        // 날짜 범위 계산
+        YearMonth previousMonth = currentMonth.minusMonths(1);
+        YearMonth nextMonth = currentMonth.plusMonths(1);
+
+        LocalDate startOfPreviousMonth = previousMonth.atDay(1);
+        LocalDate endOfNextMonth = nextMonth.atEndOfMonth();
+
+
+        // 유저 정보와 날짜 범위를 통해 스케줄 정보 가져오기
+        List<Schedule> schedules = scheduleRepository.findAllByUserAndDateRange(user, startOfPreviousMonth, endOfNextMonth);
         return schedules.stream()
                 .map(ScheduleDto::from)
                 .collect(Collectors.toList());
     }
 
     //get by memberId and Date
-    public List<ScheduleDto> getSchedulesByMemberIdAndDate(int year, int month, HttpServletRequest request){
+    public List<ScheduleDto> getSchedulesByMemberIdAndDate(LocalDate date, HttpServletRequest request){
         //token값을 통해 memberId 가져오기
         String token = jwtUtils.getJwtFromHeader(request);
         Claims claims = jwtUtils.getUserInfoFromToken(token);
@@ -57,17 +70,13 @@ public class ScheduleService {
             throw new UserNotFoundException("사용자가 존재하지 않습니다.");
         }
 
-        //시작 날짜
-        LocalDate startOfMonth = LocalDate.of(year, month, 1);
-        //마지막 날짜
-        LocalDate endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth());
-
         //유저 정보와 날짜를 통해 schedule정보 가져오기
-        List<Schedule> schedules = scheduleRepository.findAllByUserAndYearAndMonth(user, year, month, startOfMonth, endOfMonth);
+        List<Schedule> schedules = scheduleRepository.findAllByUserAndDate(user, date);
         return schedules.stream()
                 .map(ScheduleDto::from)
                 .collect(Collectors.toList());
     }
+
 
     //create
     public void createSchedule(ScheduleDto scheduleDto, HttpServletRequest request){
@@ -87,6 +96,7 @@ public class ScheduleService {
         schedule.setStart_date(scheduleDto.getStart_date());
         schedule.setEnd_date(scheduleDto.getEnd_date());
         schedule.setSchedule_color(scheduleDto.getSchedule_color());
+        schedule.setContent(scheduleDto.getContent());
         scheduleRepository.save(schedule);
     }
 
@@ -121,6 +131,8 @@ public class ScheduleService {
             schedule.setEnd_date(scheduleDto.getEnd_date());
         if(scheduleDto.getSchedule_color() != null)
             schedule.setSchedule_color(scheduleDto.getSchedule_color());
+        if(scheduleDto.getContent() != null)
+            schedule.setContent(scheduleDto.getContent());
 
         scheduleRepository.save(schedule);
     }

@@ -15,6 +15,7 @@ public class ScheduleDto {
     private LocalDate start_date;
     private LocalDate end_date;
     private String schedule_color;
+    private String content;
 
     public static ScheduleDto from(Schedule schedule){
         ScheduleDto dto = new ScheduleDto();
@@ -22,6 +23,7 @@ public class ScheduleDto {
         dto.setStart_date(schedule.getStart_date());
         dto.setEnd_date(schedule.getEnd_date());
         dto.setSchedule_color(schedule.getSchedule_color());
+        dto.setContent(schedule.getContent());
         return dto;
     }
 }

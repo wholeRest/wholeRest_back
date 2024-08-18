@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// 코멘트 컨트롤러
 @RestController
 @RequestMapping("/api/comments")
 public class CommentController {
