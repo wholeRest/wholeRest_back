@@ -104,11 +104,7 @@ npm run dev
 <br>
 
 주요 기능 5 : **커뮤니티** (AWS S3 BUCKET을 통한 이미지 업로드 기능 구현, 게시물 조회 시 댓글 조회 가능)
-
-
-## CI / CD
-<img src="https://github.com/user-attachments/assets/88cf8c77-6528-4f53-9577-270e4da35a22" width="650" />
-
+<br><br>
 
 ## erd 설계
 ![image](https://github.com/user-attachments/assets/f97d42e3-208e-43ad-9609-84766578eaad)
