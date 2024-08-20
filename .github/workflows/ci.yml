@@ -3,8 +3,8 @@ name: Java CI with Gradle	#워크플로 이름
 on:	#워크플로를 실행할 트리거 이벤트를 정의
   #push:
     #branches: [ "main" ]	#main브랜치에 코드가 푸시될 때 워크플로를 실행
-  pull_request:
-    branches: [ "main" ]	#main브랜치에 대한 풀 리퀘스트가 생성될 때 워크플로를 실행
+  #pull_request:
+    #branches: [ "main" ]	#main브랜치에 대한 풀 리퀘스트가 생성될 때 워크플로를 실행
 
 
 jobs:	#실행할 작업들을 정의
